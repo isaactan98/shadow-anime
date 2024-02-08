@@ -10,7 +10,11 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@nuxt/ui": "^2.13.0",
+    "firebase": "^10.8.0",
+    "hls.js": "^1.5.4",
     "nuxt": "^3.10.1",
+    "vidstack": "^0.6.14",
     "vue": "^3.4.15",
     "vue-router": "^4.2.5"
   }
