@@ -1,19 +1,6 @@
 <template>
   <div class="min-h-screen" style="background-color: #15151d;">
-    <div class="sticky top-0 z-50 backdrop-blur-md bg-zinc-950/60 w-full mx-auto">
-      <UContainer>
-        <UHorizontalNavigation :links="navLinks"
-          :ui="{ active: 'text-purple-500 after:bg-purple-500', icon: { active: 'text-purple-500' }, before: 'hover:before:bg-transparent' }">
-          <template #default="{ link }">
-            <div v-if="link.label == 'Profile'">
-              <UDropdown :items="items" :popper="{ offsetDistance: 15 }">
-                <UAvatar src="https://s1.zerochan.net/Delta.%28Kage.No.Jitsuryokusha.Ni.Naritakute%29.600.3834699.jpg" />
-              </UDropdown>
-            </div>
-          </template>
-        </UHorizontalNavigation>
-      </UContainer>
-    </div>
+    <Navbar />
     <NuxtLayout>
       <NuxtPage />
     </NuxtLayout>
