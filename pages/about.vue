@@ -10,7 +10,8 @@
 
             <div class="flex items-center mt-8">
                 <h1 class="text-white text-4xl">About Shadow Anime</h1>
-                <!-- <img src="~/assets/images/7shadow-delta.png" alt="" class="w-1/6 md:hidden"> -->
+                <img src="https://static.wikia.nocookie.net/to-be-a-power-in-the-shadows/images/8/84/Delta_Game.png" alt=""
+                    class="w-1/6 md:hidden">
             </div>
             <!-- generate about me description -->
             <div class="md:flex">
@@ -74,7 +75,8 @@
                 </div>
                 <div class="mt-5 md:mt-0 md:1/4 flex justify-center">
                     <div>
-                        <!-- <img src="~/assets/images/7shadow-delta.png" alt=""> -->
+                        <img src="https://static.wikia.nocookie.net/to-be-a-power-in-the-shadows/images/8/84/Delta_Game.png"
+                            alt="">
                     </div>
                 </div>
             </div>

@@ -13,7 +13,7 @@
             </span>
         </div>
         <div class="mt-3">
-            <p class="text-zinc-300 line-clamp-2">{{ animeInfo.title }}</p>
+            <title class="text-zinc-300 line-clamp-2">{{ animeInfo.title }}</title>
         </div>
     </NuxtLink>
 </template>

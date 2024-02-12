@@ -52,7 +52,9 @@
                         @click="isOpen = false" />
                 </div>
             </template>
-            <Placeholder class="h-full" />
+            <Placeholder class="h-full">
+                <UVerticalNavigation :links="navLinks" class="mt-3" :ui="{ active: 'text-purple-500' }" />
+            </Placeholder>
         </UCard>
     </USlideover>
 </template>
