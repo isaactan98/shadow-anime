@@ -86,5 +86,8 @@ export default defineNuxtConfig({
     compilerOptions: {
       isCustomElement: (tag) => tag == "lottie-player" || tag.startsWith('media-') || tag == 'SpeedInsights' || tag == 'Placeholder',
     }
+  },
+  colorMode: {
+    preference: 'light'
   }
 })
