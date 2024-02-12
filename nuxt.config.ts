@@ -82,4 +82,9 @@ export default defineNuxtConfig({
       anifyApi: process.env.NUXT_PUBLIC_ANIFY_API,
     },
   },
+  vue: {
+    compilerOptions: {
+      isCustomElement: (tag) => tag == "lottie-player" || tag.startsWith('media-') || tag == 'SpeedInsights' || tag == 'Placeholder',
+    }
+  }
 })

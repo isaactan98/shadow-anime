@@ -1,10 +1,14 @@
 <template>
+  <NuxtLoadingIndicator />
   <div class="min-h-screen" style="background-color: #15151d;">
     <Navbar />
     <NuxtLayout>
       <NuxtPage />
     </NuxtLayout>
   </div>
+  <footer class="p-5" style="background-color: #15151d;">
+
+  </footer>
 </template>
 
 <script lang="ts">
