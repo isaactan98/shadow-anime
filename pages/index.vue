@@ -12,13 +12,15 @@
         <UContainer v-if="recentRelease.length > 0" class="relative top-0 mt-10 md:-top-36">
             <h1 class="text-2xl font-semibold text-white mb-5">Recent Release</h1>
             <div class="flex overflow-x-auto gap-5 w-full snap-x scroll-smooth">
-                <AnimeCard v-for="anime in recentRelease" :animeInfo="anime" />
+                <AnimeCard v-for="anime in recentRelease" :id="anime.id" :image="anime.image" :title="anime.title"
+                    :episode="anime.episodeNumber" />
             </div>
         </UContainer>
         <UContainer v-if="topAiring.length > 0" class="relative top-0 mt-10 md:-top-36">
             <h1 class="text-2xl font-semibold text-white mb-5">Top Airing</h1>
             <div class="flex overflow-x-auto gap-5 w-full snap-x scroll-smooth">
-                <AnimeCard v-for="anime in topAiring" :animeInfo="anime" />
+                <AnimeCard v-for="anime in topAiring" :id="anime.id" :image="anime.image" :title="anime.title"
+                    :episode="anime.episodeNumber" />
             </div>
         </UContainer>
     </div>
@@ -30,8 +32,8 @@ export default {
     data() {
         return {
             slides: [],
-            recentRelease: [],
-            topAiring: [],
+            recentRelease: [] as any[],
+            topAiring: [] as any[],
             steamingList: []
         }
     },

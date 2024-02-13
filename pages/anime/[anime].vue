@@ -1,7 +1,14 @@
 <template>
     <div v-if="anime" class="relative">
-        <div class="w-full py-5 grid place-items-center h-[30rem]">
-            <img :src="anime.image" alt="" class="w-64 rounded-xl z-10 relative shadow-lg">
+        <div v-if="animeMeta != null" class="w-full py-5 grid place-items-center h-[30rem]">
+            <img :src="animeMeta.image" alt="" class="w-3/4 md:w-72 rounded-xl z-10 relative shadow-lg">
+            <div class="w-full">
+                <div class="w-full absolute backdrop-blur-md z-[1] top-0 h-[30rem] object-cover left-0 right-0"></div>
+                <img :src="animeMeta.cover" alt="" class="w-full absolute top-0 h-[30rem] object-cover left-0 right-0">
+            </div>
+        </div>
+        <div v-else class="w-full py-5 grid place-items-center h-[30rem]">
+            <img :src="anime.image" alt="" class="w-3/4 md:w-72 rounded-xl z-10 relative shadow-lg">
             <div class="w-full">
                 <div class="w-full absolute backdrop-blur-md z-[1] top-0 h-[30rem] object-cover left-0 right-0"></div>
                 <img :src="anime.image" alt="" class="w-full absolute top-0 h-[30rem] object-cover left-0 right-0">
@@ -25,7 +32,7 @@
                     <div v-if="animeMeta != null" class="hidden md:block col-span-3">
                         <h3 class="text-white text-xl mt-5">Characters</h3>
                         <div class="mt-3 grid grid-cols-3 md:grid-cols-4 gap-3">
-                            <UCard v-for="(c, i) in animeMeta.characters"
+                            <UCard v-for="(c, i) in animeMeta.characters" class=" text-center"
                                 :ui="{ background: ' bg-zinc-800', ring: 'ring-0', body: { padding: 'p-1' } }">
                                 <img :src="c.image" alt="" class=" w-28 h-28 rounded-lg object-cover">
                                 <div class="mt-3">
@@ -44,13 +51,21 @@
                         <h3 class="text-white text-xl">Episodes</h3>
                         <div class="mt-3">
                             <NuxtLink v-for="(   e, i   ) in    anime.episodes   " :key="i"
-                                class="flex gap-3 w-full mb-3 items-center border rounded-lg border-purple-500">
+                                class="flex gap-3 w-full mb-3 items-center border rounded-lg">
                                 <img :src="animeMeta.episodes[i].image" alt="" class=" w-28 h-28 rounded-lg object-cover">
                                 <div>
                                     <h5 class="text-white text-sm">{{ animeMeta.episodes[i].title }}</h5>
                                     <h5 class="text-white text-sm">EP{{ e.number }}</h5>
                                 </div>
                             </NuxtLink>
+                        </div>
+                    </div>
+                    <div class="mt-5 w-full" v-else>
+                        <h3 class="text-white text-xl">Episodes</h3>
+                        <div class="mt-3 grid grid-cols-3 gap-3 ">
+                            <UButton color="gray" v-for="(e, i) in anime.episodes" :key="i">
+                                <h5 class=" text-sm">EP{{ e.number }}</h5>
+                            </UButton>
                         </div>
                     </div>
                 </div>
@@ -68,8 +83,16 @@
                     </div>
                 </div>
             </div>
+            <div v-if="animeMeta" class="mt-5">
+                <h3 class="text-white text-xl mb-3">Recommendations</h3>
+                <div class="flex overflow-x-auto gap-5 w-full snap-x scroll-smooth">
+                    <AnimeCard v-for="anime in animeMeta.recommendations" :id="anime.id" :title="anime.title.english"
+                        :image="anime.image" :episode="anime.episodes" />
+                </div>
+            </div>
         </UContainer>
     </div>
+    <USkeleton v-else class="h-screen" :ui="{ rounded: 'rounded-xl', background: 'bg-zinc-700' }" :loading="true" />
 </template>
 
 <script>
@@ -82,7 +105,8 @@ export default {
             nextPage: false,
             currentPage: 1,
             nextLoading: false,
-            animeMeta: null
+            animeMeta: null,
+            recommendations: null
         }
     },
     async mounted() {
@@ -107,10 +131,9 @@ export default {
                     console.log('data', data)
                     this.anime = data
                     this.animeMeta = await fetchAnimeMeta(this.anime.title)
-
                 })
                 .catch(err => {
-                    alert('Something went wrong, please try again later')
+                    // alert('Something went wrong, please try again later')
                     console.log(err)
                 });
         },
