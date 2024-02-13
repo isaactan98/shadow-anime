@@ -24,7 +24,7 @@
                 </div>
             </div>
             <UHorizontalNavigation class="hidden md:flex" :links="navLinks"
-                :ui="{ active: 'text-purple-500 after:bg-purple-500', icon: { active: 'text-purple-500' }, before: 'hover:before:bg-transparent' }">
+                :ui="{ active: '!text-purple-500 after:!bg-purple-500', icon: { active: '!text-purple-500' }, before: 'hover:before:bg-transparent' }">
                 <template #default="{ link }">
                     <div v-if="link.label == 'Profile'">
                         <UDropdown :items="items" :popper="{ offsetDistance: 15 }" :ui="{
@@ -53,7 +53,8 @@
                 </div>
             </template>
             <Placeholder class="h-full">
-                <UVerticalNavigation :links="navLinks" class="mt-3" :ui="{ active: 'text-purple-500' }" />
+                <UVerticalNavigation :links="mobileLinks" class="mt-3" :ui="{ active: 'text-purple-500' }"
+                    @click="isOpen = false" />
             </Placeholder>
         </UCard>
     </USlideover>
@@ -83,7 +84,23 @@ export default {
             }], [{
                 label: 'Profile',
             }]],
-            mobileLinks: [],
+            mobileLinks: [{
+                label: 'Home',
+                icon: 'i-heroicons-home',
+                to: '/'
+            }, {
+                label: 'About',
+                icon: 'i-heroicons-chart-bar',
+                to: '/about'
+            }, {
+                label: 'Manga',
+                icon: 'i-heroicons-command-line',
+                to: '/manga'
+            }, {
+                label: 'News',
+                icon: 'i-heroicons-command-line',
+                to: '/news'
+            }],
             items: [
                 [{
                     label: 'Profile',

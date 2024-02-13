@@ -40,6 +40,13 @@ export default {
         this.fetchZoroTopAnime();
         this.getRecentRelease(config)
         this.getTopAiring(config)
+        useHead({
+            title: 'Home',
+            meta: [
+                { name: 'description', content: 'Home' },
+            ],
+
+        })
     },
     methods: {
         async fetchZoroTopAnime() {
