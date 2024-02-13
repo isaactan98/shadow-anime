@@ -81,6 +81,10 @@ export default {
                 label: 'News',
                 icon: 'i-heroicons-command-line',
                 to: '/news'
+            }, {
+                label: 'Waifu',
+                icon: 'i-heroicons-command-line',
+                to: '/waifu'
             }], [{
                 label: 'Profile',
             }]],
@@ -100,6 +104,10 @@ export default {
                 label: 'News',
                 icon: 'i-heroicons-command-line',
                 to: '/news'
+            }, {
+                label: 'Waifu',
+                icon: 'i-heroicons-command-line',
+                to: '/waifu'
             }],
             items: [
                 [{
