@@ -42,8 +42,6 @@ export default {
         }
     },
     async mounted() {
-        document.querySelector('html')?.classList.remove('dark')
-        document.querySelector('html')?.classList.add('light')
         const config = useRuntimeConfig();
         this.slides = await aniWatchSlider();
         this.getRecentRelease(config)

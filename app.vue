@@ -67,6 +67,8 @@ export default {
     }
   },
   mounted() {
+    document.querySelector('html')?.classList.remove('dark')
+    document.querySelector('html')?.classList.add('light')
     useHead({
       title: 'Home',
       meta: [
