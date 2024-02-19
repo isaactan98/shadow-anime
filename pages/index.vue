@@ -2,10 +2,14 @@
     <div class="w-full mx-auto">
         <UCarousel v-if="slides.length > 0" v-slot="{ item, index }" :items="slides" arrows>
             <div class="w-screen object-cover flex justify-end items-center overflow-hidden relative h-[55vh] md:h-[85vh]">
-                <img :src="item.image" class="h-full md:h-[85vh] w-full object-cover"
+                <img :src="item.img" class="h-full md:h-[85vh] w-full object-cover"
                     style="mask-image: linear-gradient(270deg,transparent 0,rgb(36,36,40) 10%,rgb(36,36,40) 50%,transparent);">
-                <h1 class="absolute top-3/4 md:top-1/2 left-10 font-semibold drop-shadow-sm text-md md:text-5xl text-white">
-                    {{ item.name }}</h1>
+                <div
+                    class="absolute top-3/4 md:top-1/2 left-10 font-semibold drop-shadow-sm text-md md:text-5xl text-white">
+                    <h1 class="mb-3">
+                        {{ item.title }}</h1>
+                    <div class="w-1/2 text-sm md:text-base line-clamp-3 text-white" v-html="item.description"></div>
+                </div>
             </div>
         </UCarousel>
         <USkeleton v-else class="h-[55vh] md:h-[100vh]" :ui="{ rounded: 'rounded-none', background: 'bg-zinc-700' }" />
@@ -31,15 +35,15 @@
 export default {
     data() {
         return {
-            slides: [],
+            slides: [] as any[],
             recentRelease: [] as any[],
             topAiring: [] as any[],
             steamingList: []
         }
     },
-    mounted() {
+    async mounted() {
         const config = useRuntimeConfig();
-        this.fetchZoroTopAnime();
+        this.slides = await aniWatchSlider();
         this.getRecentRelease(config)
         this.getTopAiring(config)
         useHead({
@@ -51,19 +55,6 @@ export default {
         })
     },
     methods: {
-        async fetchZoroTopAnime() {
-            console.log("fetch")
-            const response = await fetch('https://aniwatch-api-coral.vercel.app/anime/home');
-            this.slides = await response.json().then(data => {
-                return data.spotlightAnimes.map((anime: any) => {
-                    return {
-                        image: anime.poster,
-                        name: anime.name,
-                        id: anime.id
-                    }
-                })
-            });
-        },
         async getRecentRelease(config: any) {
             var url = ''
             url = config['public'].apiUrl + 'recent-episodes'

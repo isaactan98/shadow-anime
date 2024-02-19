@@ -47,10 +47,10 @@
                     <div class="flex gap-3 items-center">
                         <UButton label="Add to Watchlist" color="gray" />
                     </div>
-                    <div class="mt-5 w-full" v-if="animeMeta != null && animeMeta.episodes.length > 0">
+                    <div class="mt-5 w-full" v-if="animeMeta != null && animeMeta.episodes.length == anime.episodes.length">
                         <h3 class="text-white text-xl">Episodes</h3>
                         <div class="mt-3">
-                            <NuxtLink v-for="(   e, i   ) in    anime.episodes   " :key="i"
+                            <NuxtLink v-for="(e, i) in anime.episodes" :key="i"
                                 class="flex gap-3 w-full mb-3 items-center border rounded-lg">
                                 <img :src="animeMeta.episodes[i].image" alt="" class=" w-28 h-28 rounded-lg object-cover">
                                 <div>
@@ -84,9 +84,16 @@
                 </div>
             </div>
             <div v-if="animeMeta" class="mt-5">
+                <h3 class="text-white text-xl mb-3">Relations</h3>
+                <div class="flex overflow-x-auto gap-5 w-full snap-x scroll-smooth">
+                    <AnimeCard v-for="meta in relations" :id="meta.id" :title="meta.title.english" :image="meta.image"
+                        :episode="meta.episodes" />
+                </div>
+            </div>
+            <div v-if="animeMeta" class="mt-5">
                 <h3 class="text-white text-xl mb-3">Recommendations</h3>
                 <div class="flex overflow-x-auto gap-5 w-full snap-x scroll-smooth">
-                    <AnimeCard v-for="anime in animeMeta.recommendations" :id="anime.id" :title="anime.title.english"
+                    <AnimeCard v-for="anime in recommendations" :id="anime.id" :title="anime.title.english"
                         :image="anime.image" :episode="anime.episodes" />
                 </div>
             </div>
@@ -106,7 +113,8 @@ export default {
             currentPage: 1,
             nextLoading: false,
             animeMeta: null,
-            recommendations: null
+            recommendations: null,
+            relations: null
         }
     },
     async mounted() {
@@ -130,7 +138,23 @@ export default {
                 .then(async data => {
                     console.log('data', data)
                     this.anime = data
-                    this.animeMeta = await fetchAnimeMeta(this.anime.title)
+                    this.animeMeta = await fetchAnimeMeta(data.title)
+                    if (this.animeMeta != null) {
+                        this.recommendations = this.animeMeta.recommendations
+                        this.recommendations.forEach(async element => {
+                            // element.id = await getAnimeInfo(element.id).mappings
+                            let mappings = await getAnimeInfo(element.id)
+                            element.id = getAnimeId(mappings)
+                            // console.log('element', mappings, mappings.mappings)
+                        });
+                        this.relations = this.animeMeta.relations
+                        this.relations.forEach(async element => {
+                            // element.id = await getAnimeInfo(element.id).mappings
+                            let mappings = await getAnimeInfo(element.id)
+                            element.id = getAnimeId(mappings)
+                            // console.log('element', mappings, mappings.mappings)
+                        });
+                    }
                 })
                 .catch(err => {
                     // alert('Something went wrong, please try again later')
