@@ -121,7 +121,9 @@ export default {
         console.clear()
         const route = useRoute();
         const config = useRuntimeConfig();
-        this.animeMeta = await getAnimeInfo(this.$route.query.externalId)
+        if (this.$route.query.externalId != "null") {
+            this.animeMeta = await getAnimeInfo(this.$route.query.externalId)
+        }
         await this.getAnime(config, route)
         useHead({
             title: this.anime.title,
