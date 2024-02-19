@@ -86,15 +86,15 @@
             <div v-if="animeMeta" class="mt-5">
                 <h3 class="text-white text-xl mb-3">Relations</h3>
                 <div class="flex overflow-x-auto gap-5 w-full snap-x scroll-smooth">
-                    <AnimeCard v-for="meta in relations" :id="meta.id" :title="meta.title.english" :image="meta.image"
-                        :episode="meta.episodes" />
+                    <AnimeCard v-for="meta in relations" :id="meta.externalId" :title="meta.title.english"
+                        :image="meta.image" :episode="meta.episodes" :external-id="meta.id" />
                 </div>
             </div>
             <div v-if="animeMeta" class="mt-5">
                 <h3 class="text-white text-xl mb-3">Recommendations</h3>
                 <div class="flex overflow-x-auto gap-5 w-full snap-x scroll-smooth">
-                    <AnimeCard v-for="anime in recommendations" :id="anime.id" :title="anime.title.english"
-                        :image="anime.image" :episode="anime.episodes" />
+                    <AnimeCard v-for="anime in recommendations" :id="anime.externalId" :title="anime.title.english"
+                        :image="anime.image" :episode="anime.episodes" :external-id="anime.id" />
                 </div>
             </div>
         </UContainer>
@@ -121,6 +121,7 @@ export default {
         console.clear()
         const route = useRoute();
         const config = useRuntimeConfig();
+        this.animeMeta = await getAnimeInfo(this.$route.query.externalId)
         await this.getAnime(config, route)
         useHead({
             title: this.anime.title,
@@ -138,20 +139,22 @@ export default {
                 .then(async data => {
                     console.log('data', data)
                     this.anime = data
-                    this.animeMeta = await fetchAnimeMeta(data.title)
+                    if (this.$route.query.externalId == "null") {
+                        this.animeMeta = await fetchAnimeMeta(data.title)
+                    }
                     if (this.animeMeta != null) {
                         this.recommendations = this.animeMeta.recommendations
                         this.recommendations.forEach(async element => {
                             // element.id = await getAnimeInfo(element.id).mappings
                             let mappings = await getAnimeInfo(element.id)
-                            element.id = getAnimeId(mappings)
+                            element.externalId = getAnimeId(mappings)
                             // console.log('element', mappings, mappings.mappings)
                         });
                         this.relations = this.animeMeta.relations
                         this.relations.forEach(async element => {
                             // element.id = await getAnimeInfo(element.id).mappings
                             let mappings = await getAnimeInfo(element.id)
-                            element.id = getAnimeId(mappings)
+                            element.externalId = getAnimeId(mappings)
                             // console.log('element', mappings, mappings.mappings)
                         });
                     }
