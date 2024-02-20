@@ -16,11 +16,11 @@
 
             <div class="container mx-auto">
                 <div class="w-full md:w-2/3">
-                    <div class="w-full flex items-center">
+                    <form @submit.prevent="searchManga()" class="w-full flex items-center">
                         <input type="text"
                             class="bg-gray-200 w-full rounded-full py-2 px-4 text-gray-700 focus:outline-none focus:bg-white focus:text-gray-900"
                             placeholder="Search..." v-model="search" id="searchManga">
-                        <button type="button" class=" text-white" @click="searchManga()">
+                        <button type="submit" class=" text-white">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                                 class="w-12 h-12">
                                 <path d="M8.25 10.875a2.625 2.625 0 115.25 0 2.625 2.625 0 01-5.25 0z" />
@@ -29,26 +29,25 @@
                                     clip-rule="evenodd" />
                             </svg>
                         </button>
-                    </div>
+                    </form>
                 </div>
             </div>
 
-            <div class="container mx-auto mt-8">
+            <div class="container mx-auto mt-8 relative">
                 <div class="ml-3 mb-5 underline underline-offset-2 w-full flex text-white" v-if="manga.length > 0">
                     Result: {{ manga.length ?? '0' }}
                 </div>
                 <div class="grid grid-cols-2 md:grid-cols-3 gap-2" v-if="loading == false">
-                    <button class="text-white px-3 py-3 bg-slate-800 rounded-2xl mb-3" v-for="m in manga" :key="m"
-                        @click="navTo('/manga/' + m.id)">
+                    <NuxtLink class="text-white px-3 py-3 bg-slate-800 rounded-2xl mb-3" v-for="m in manga" :key="m"
+                        :to="'/manga/' + m.id">
                         <div class="object-contain">
-                            <img :src="'https://api-consumet-55ajst2bq-isaactan98.vercel.app/utils/image-proxy?url=' + m.image + '&referer=http://www.mangahere.cc'"
-                                alt="" class="rounded-xl object-cover w-full h-64 lg:h-[32rem]">
+                            <img :src="m.image" alt="" class="rounded-xl object-cover w-full h-64 lg:h-[32rem]">
                         </div>
                         <hr class=" my-2">
                         <div>{{ m.title }}</div>
-                    </button>
+                    </NuxtLink>
                 </div>
-                <div class="w-full flex items-center justify-center" v-else>
+                <div class="absolute w-full flex items-center justify-center" v-else>
                     <SpiningLoading />
                 </div>
                 <div class="w-full flex justify-center mt-3" v-if="manga.length > 0">
@@ -87,13 +86,6 @@ export default {
     },
     async mounted() {
         // this.searchManga()
-        document.getElementById('searchManga').focus()
-        document.getElementById('searchManga').addEventListener('keydown', (e) => {
-            // console.log(e.key)
-            if (e.key === 'Enter') {
-                this.searchManga()
-            }
-        })
         useHead({
             title: 'Manga',
             meta: [

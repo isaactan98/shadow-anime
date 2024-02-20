@@ -2,7 +2,7 @@
     <div class="container p-4 mx-auto min-h-screen">
         <div v-if="manga != null" class="">
             <div>
-                <img :src="'https://api-consumet-55ajst2bq-isaactan98.vercel.app/utils/image-proxy?url=' + manga.image + '&referer=http://www.mangahere.cc'"
+                <img :src="'https://api-consumet-55ajst2bq-isaactan98.vercel.app/utils/image-proxy?url=' + manga.image + '&referer=http://www.mangadex.org'"
                     alt="" class="rounded-2xl w-full">
             </div>
             <div class="text-white mt-3">
@@ -28,10 +28,10 @@
                 <h1 class=" font-bold">Chapters:</h1>
                 <div class="grid grid-cols-3 gap-2 mt-2">
                     <!-- <NuxtLink v-for="chp in manga.chapters" :key="chp" :to="'/manga/' + manga.id + '/' + chp.id" -->
-                    <button v-for="chp in manga.chapters" :key="chp" @click="navTo('/manga/' + chp.id)"
+                    <NuxtLink v-for="chp in manga.chapters" :key="chp" :to="'/manga/' + $route.params.info + '/' + chp.id"
                         class=" bg-zinc-500 py-3 px-4 rounded-md text-sm">
                         {{ chp.title ? chp.title : "No Title" }}
-                    </button>
+                    </NuxtLink>
                 </div>
             </div>
         </div>
@@ -58,7 +58,7 @@ export default {
         async getMangaInfo(id) {
             const config = useRuntimeConfig();
             const mangaApi = config['public'].mangaApi
-            await fetch(mangaApi + "info?id=" + id)
+            await fetch(mangaApi + "info/" + id)
                 .then(res => res.json())
                 .then(data => {
                     // console.log(data)
