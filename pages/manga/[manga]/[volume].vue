@@ -9,20 +9,20 @@
             <div v-else class="w-full min-h-screen flex justify-center mt-5">
                 <SpiningLoading></SpiningLoading>
             </div>
-            <div class="w-full flex gap-3 justify-center mt-5" v-if="manga != null">
+            <div class="w-full text-base flex gap-3 justify-center mt-5" v-if="manga != null">
                 <NuxtLink class="text-white px-4 py-2 bg-zinc-500 hover:bg-zinc-700 rounded-full"
                     :to="`/manga/${manga.id}`">
                     Main
                 </NuxtLink>
                 <NuxtLink v-if="nextChapter" class="text-white px-4 py-2 bg-zinc-500 hover:bg-zinc-700 rounded-full"
-                    :to="'/manga/' + goNextInfo.id">
+                    :to="'/manga/' + $route.params.manga + '/' + goNextInfo.id">
                     Next: <span class="font-bold">{{ goNextInfo.title }}</span>
                 </NuxtLink>
             </div>
         </div>
     </UContainer>
     <div v-if="manga" class="fixed bottom-0 w-full text-center">
-        <div class="p-3 text-sm bg-white">{{ getCurrentChapterInfo().title }}</div>
+        <div class="p-1 text-sm bg-white">{{ getCurrentChapterInfo().title }}</div>
     </div>
 </template>
 
