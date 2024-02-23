@@ -1,5 +1,5 @@
 <template>
-  <NuxtLoadingIndicator class="!opacity-100" color="#c084fc" />
+  <NuxtLoadingIndicator color="#c084fc" />
   <div class="min-h-screen" style="background-color: #15151d;">
     <Navbar />
     <NuxtLayout>

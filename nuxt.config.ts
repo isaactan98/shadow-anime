@@ -65,8 +65,7 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     public: {
-      apiUrl: process.env.NUXT_PUBLIC_API_URL,
-      apiUrl2: process.env.NUXT_PUBLIC_API_URL2,
+      apiUrl: process.env.NUXT_PUBLIC_API + "anime/gogoanime/",
       firebaseApiKey: process.env.NUXT_PUBLIC_FIREBASE_API_KEY,
       firebaseAuthDomain: process.env.NUXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
       firebaseProjectId: process.env.NUXT_PUBLIC_FIREBASE_PROJECT_ID,
@@ -74,13 +73,11 @@ export default defineNuxtConfig({
       firebaseMessageId: process.env.NUXT_PUBLIC_FIREBASE_MESSAGE_ID,
       firebaseAppId: process.env.NUXT_PUBLIC_FIREBASE_APP_ID,
       firebaseMeasurementId: process.env.NUXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
-      apiUrl3: process.env.NUXT_PUBLIC_API_URL3,
-      apiUrlV1: process.env.NUXT_PUBLIC_API_URL_V1,
-      mangaApi: process.env.NUXT_PUBLIC_MANGA_API,
-      newsApi: process.env.NUXT_PUBLIC_NEWS_API,
+      mangaApi: process.env.NUXT_PUBLIC_API + "manga/mangadex/",
+      newsApi: process.env.NUXT_PUBLIC_API + "news/ann/",
       corsApi: process.env.NUXT_PUBLIC_CORS_API,
       anifyApi: process.env.NUXT_PUBLIC_ANIFY_API,
-      metaApi: process.env.NUXT_PUBLIC_META_API,
+      metaApi: process.env.NUXT_PUBLIC_API + "meta/anilist/",
     },
   },
   vue: {

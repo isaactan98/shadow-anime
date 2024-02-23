@@ -4,7 +4,7 @@
             <div class="flex flex-col items-center">
                 <h1 class="text-white text-4xl">Waifu</h1>
                 <div class="mt-5 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-                    <UButton v-for="(w, i) in waifu.files" :key="i" class="relative" @click="openModal(w)" color="black">
+                    <UButton v-for="(w, i) in waifu.files" :key="i" class="relative" @click="openModal(w)">
                         <img :src="w" loading="lazy" alt="" class="rounded-lg object-cover w-56 h-64">
                     </UButton>
                 </div>

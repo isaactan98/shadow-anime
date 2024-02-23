@@ -24,3 +24,28 @@ export const getAnimeId = (anime: any) => {
 
     return result;
 }
+
+export const getAnimeEpisodeSource = (data: any) => {
+    const episode = data.sources.find((episode: any) => episode.quality == "default");
+    console.log(episode);
+    if (episode) {
+        return episode.url;
+    }
+    return '';
+}
+
+export const getAnimeEpisodeId = (data: any, id: string) => {
+    const episode = data.episodes.find((episode: any) => episode.id == id);
+    if (episode) {
+        return episode;
+    }
+    return '';
+}
+
+export const getAnimeEpisodeNumber = (data: any, number: number) => {
+    const episode = data.find((episode: any) => episode.number == number);
+    if (episode) {
+        return episode;
+    }
+    return '';
+}
