@@ -1,10 +1,11 @@
 <template>
-    <div v-if="waifu">
+    <div v-if="waifu" class="pt-20">
         <UContainer>
             <div class="flex flex-col items-center">
                 <h1 class="text-white text-4xl">Waifu</h1>
                 <div class="mt-5 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-                    <UButton v-for="(w, i) in waifu.files" :key="i" class="relative" @click="openModal(w)">
+                    <UButton v-for="(w, i) in waifu.files" :key="i" class="relative" @click="openModal(w)" color="purple"
+                        variant="ghost">
                         <img :src="w" loading="lazy" alt="" class="rounded-lg object-cover w-56 h-64">
                     </UButton>
                 </div>

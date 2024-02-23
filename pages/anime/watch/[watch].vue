@@ -1,5 +1,5 @@
 <template>
-    <div class="min-h-screen">
+    <div class="min-h-screen pt-20">
         <div v-if="anime != null">
             <VideoPlayer v-if="episode != null" :title="anime.title" :poster="anime.image"
                 :src="getAnimeEpisodeSource(episode)" />

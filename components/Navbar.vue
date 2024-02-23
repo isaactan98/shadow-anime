@@ -1,5 +1,5 @@
 <template>
-    <div class="sticky top-0 z-50 backdrop-blur-md bg-zinc-950/60 w-full mx-auto">
+    <div class="fixed top-0 z-50 backdrop-blur-lg bg-black/20 w-full mx-auto">
         <UContainer>
             <div
                 class="group relative w-full flex justify-between items-center gap-1.5 px-2 py-3.5 rounded-md font-medium text-sm md:hidden">
@@ -24,7 +24,7 @@
                 </div>
             </div>
             <UHorizontalNavigation class="hidden md:flex" :links="navLinks"
-                :ui="{ active: '!text-purple-500 after:!bg-purple-500', icon: { active: '!text-purple-500' }, before: 'hover:before:bg-transparent' }">
+                :ui="{ active: '!text-purple-500 after:!bg-purple-500', inactive: 'text-zinc-200', icon: { inactive: 'text-zinc-200', active: '!text-purple-500' }, before: 'hover:before:bg-transparent' }">
                 <template #default="{ link }">
                     <div v-if="link.label == 'Profile'">
                         <UDropdown :items="items" :popper="{ offsetDistance: 15 }" :ui="{

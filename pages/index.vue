@@ -5,14 +5,16 @@
                 <img :src="item.img" class="h-full md:h-[85vh] w-full object-cover"
                     style="mask-image: linear-gradient(270deg,transparent 0,rgb(36,36,40) 10%,rgb(36,36,40) 50%,transparent);">
                 <div
-                    class="absolute top-3/4 md:top-1/2 left-10 font-semibold drop-shadow-sm text-md md:text-5xl text-white">
-                    <h1 class="mb-3">
-                        {{ item.title }}</h1>
-                    <div class="w-1/2 text-sm md:text-base line-clamp-3 text-white" v-html="item.description"></div>
+                    class="absolute top-3/4 md:top-1/2 left-10 w-full font-semibold drop-shadow-sm text-md md:text-5xl text-white">
+                    <UContainer>
+                        <h1 class="mb-3">
+                            {{ item.title }}</h1>
+                        <div class="w-1/2 text-sm md:text-base line-clamp-3 text-white" v-html="item.description"></div>
+                    </UContainer>
                 </div>
             </div>
         </UCarousel>
-        <USkeleton v-else class="h-[55vh] md:h-[100vh]" :ui="{ rounded: 'rounded-none', background: 'bg-zinc-700' }" />
+        <USkeleton v-else class="h-[55vh] md:h-[100vh]" :ui="{ rounded: 'rounded-none', background: 'bg-zinc-800' }" />
         <UContainer v-if="recentRelease.length > 0" class="relative top-0 mt-10 md:-top-36">
             <h1 class="text-2xl font-semibold text-white mb-5">Recent Release</h1>
             <div class="flex overflow-x-auto gap-5 w-full snap-x scroll-smooth">

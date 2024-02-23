@@ -1,5 +1,5 @@
 <template>
-    <div v-if="anime" class="relative">
+    <div v-if="anime" class="relative pt-20">
         <div v-if="animeMeta != null" class="w-full py-5 grid place-items-center h-[30rem]">
             <img :src="animeMeta.image" alt="" class="w-3/4 md:w-72 rounded-xl z-10 relative shadow-lg">
             <div class="w-full">
