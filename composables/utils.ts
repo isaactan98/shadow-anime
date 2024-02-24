@@ -43,9 +43,43 @@ export const getAnimeEpisodeId = (data: any, id: string) => {
 }
 
 export const getAnimeEpisodeNumber = (data: any, number: number) => {
-    const episode = data.find((episode: any) => episode.number == number);
+    const episode = data.find((episode: any) => {
+        if (episode.episode_number != undefined) {
+            return episode.episode_number === number;
+        } else if (episode.number != undefined) {
+            return episode.number === number;
+        } else {
+            return null;
+        }
+    });
     if (episode) {
         return episode;
     }
     return '';
+}
+
+export const getDate = (year: string, month: string, date: string) => {
+    let monthInt = parseInt(month) - 1;
+    return new Date(parseInt(year), monthInt, parseInt(date)).toUTCString().split(' ').slice(0, 4).join(' ');
+}
+
+export const getCountDown = (date: string) => {
+    let parNumDate = parseInt(date) * 1000;
+    const countDownDate = new Date(parNumDate).getTime();
+    const now = new Date().getTime();
+
+    // Check if the countdown date is in the future
+    if (countDownDate > now) {
+        const distance = countDownDate - now;
+
+        // Calculate days, hours, minutes
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+
+        // Return the time difference in the format "days, hours, minutes"
+        return `${days}d ${hours}h ${minutes}m`;
+    } else {
+        return "Countdown date is in the past";
+    }
 }

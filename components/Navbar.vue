@@ -1,10 +1,10 @@
 <template>
-    <div class="fixed top-0 z-50 backdrop-blur-lg bg-black/20 w-full mx-auto">
+    <div class="fixed top-0 z-50 backdrop-blur-sm bg-black/20 w-full mx-auto">
         <UContainer>
             <div
                 class="group relative w-full flex justify-between items-center gap-1.5 px-2 py-3.5 rounded-md font-medium text-sm md:hidden">
                 <div class="flex items-center">
-                    <UButton label="Open" :padded="false" color="black" @click="isOpen = true">
+                    <UButton label="Open" :padded="false" color="black" variant="ghost" @click="isOpen = true">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                             stroke="currentColor" class="w-6 h-6">
                             <path stroke-linecap="round" stroke-linejoin="round"
@@ -14,6 +14,7 @@
                 </div>
                 <div class="flex items-center">
                     <UDropdown :items="items" :popper="{ offsetDistance: 15 }" :ui="{
+                        ring: 'ring-0',
                         background: 'bg-zinc-800', item: {
                             inactive: 'text-white', active: '', hover: 'bg-zinc-900'
                         }
@@ -28,6 +29,7 @@
                 <template #default="{ link }">
                     <div v-if="link.label == 'Profile'">
                         <UDropdown :items="items" :popper="{ offsetDistance: 15 }" :ui="{
+                            ring: 'ring-0',
                             background: 'bg-zinc-800', item: {
                                 inactive: 'text-white', active: '', hover: 'bg-zinc-900'
                             }

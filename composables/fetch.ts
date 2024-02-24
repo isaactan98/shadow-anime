@@ -12,7 +12,7 @@ export const fetchAnimeMeta = async (animeName: string) => {
             throw new Error('Network response was not ok');
         }
         const data2 = await response2.json();
-        console.log(data2);
+        // console.log(data2);
         return data2
     }
 }
@@ -52,6 +52,75 @@ export const aniWatchSlider = async () => {
             description: description?.textContent
         });
     });
-    console.log(result);
+    // console.log(result);
     return result;
+}
+
+export const anilistTrendingSlider = async () => {
+    const config = useRuntimeConfig();
+    const response = await fetch(config['public'].metaApi + 'trending');
+    if (!response.ok) {
+        throw new Error('Network response was not ok');
+    }
+    const data = await response.json();
+    // console.log(data);
+    return data.results;
+}
+
+export const anilistRecentReleases = async () => {
+    const config = useRuntimeConfig();
+    const response = await fetch(config['public'].metaApi + 'recent-episodes');
+    if (!response.ok) {
+        throw new Error('Network response was not ok');
+    }
+    const data = await response.json();
+    // console.log(data);
+    return data.results;
+}
+
+// airing-schedule
+export const anilistAiringSchedule = async () => {
+    const config = useRuntimeConfig();
+    const response = await fetch(config['public'].metaApi + 'airing-schedule');
+    if (!response.ok) {
+        throw new Error('Network response was not ok');
+    }
+    const data = await response.json();
+    // console.log(data);
+    return data.results;
+}
+
+export const findAnilistTmdb = async (data: any) => {
+    const mapping = data.mappings.find((mapping: any) => mapping.providerId === 'tmdb');
+    // console.log(mapping, mapping.id.split('/tv/')[1]);
+    if (mapping == null) return null;
+
+    const config = useRuntimeConfig();
+    const res = await fetch(`${config['public'].tmdbApi}info/${mapping.id.split('/tv/')[1]}?type=tv`).then((response) => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json()
+    })
+
+    return res;
+}
+
+const imgPath = "https://image.tmdb.org/t/p/original" as string;
+
+export const getTmdbSeasonEpisodes = async (id: string, season: number) => {
+    const config = useRuntimeConfig();
+    let response = await fetch(`${config['public'].tmdbApi}season/${id}/${season}?type=tv`).then((response) => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json()
+    })
+    if (response) {
+        response = response;
+        response.episodes.forEach((episode: any) => {
+            episode.image = `${imgPath}${episode.still_path}`;
+        });
+    }
+    return response;
 }

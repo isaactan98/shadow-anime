@@ -17,6 +17,13 @@ export default {
         title: null,
         poster: null
     },
+    data() {
+        return {
+            src: null,
+            title: null,
+            poster: null
+        }
+    },
     mounted() {
         defineCustomElements();
     }
