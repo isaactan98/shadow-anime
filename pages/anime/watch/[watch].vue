@@ -64,23 +64,27 @@ export default {
     },
     async mounted() {
         const config = useRuntimeConfig();
-        if (this.$route.query.externalId != null) this.animeMeta = await getAnimeInfo(this.$route.query.externalId.toString())
-        await this.getAnime(config)
+        if (this.$route.query.id != null) this.animeMeta = await getAnimeInfo(this.$route.query.id.toString())
+        const gogoAnime = this.animeMeta.mappings.find((mapping: any) => mapping.providerId === 'gogoanime');
+        if (gogoAnime) {
+            await this.getAnime(config, gogoAnime.id.split("/category/")[1])
+            console.log(this.anime, gogoAnime.id.split("/category/")[1])
+        }
         await this.getEpisode(config)
         console.log(this.animeMeta)
         useHead({
-            title: `Episode ${this.getAnimeEpisode().number} - ${this.anime.title}`,
+            title: `Episode ${this.getAnimeEpisode().number} - ${this.anime?.title}`,
             meta: [
-                { name: 'description', content: this.anime.description },
+                { name: 'description', content: this.anime?.description },
             ],
         })
     },
     methods: {
-        async getAnime(config: RuntimeConfig) {
-            const url = config['public'].apiUrl + 'info/' + this.$route.query.id
+        async getAnime(config: RuntimeConfig, id: string) {
+            const url = config['public'].apiUrl + 'info/' + id
             const res = await fetch(url)
             const data = await res.json()
-            console.log(data)
+            console.log("getAnime: ",data)
             this.anime = data
         },
         async getEpisode(config: RuntimeConfig) {
@@ -91,7 +95,7 @@ export default {
             this.episode = data
         },
         getAnimeEpisode() {
-            return this.anime.episodes.find((ep: any) => ep.id == this.$route.params.watch)
+            return this.animeMeta.episodes.find((ep: any) => ep.id == this.$route.params.watch)
         },
     },
 
