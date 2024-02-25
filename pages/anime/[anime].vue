@@ -4,7 +4,7 @@
             <div class="absolute bottom-10 md:bottom-8 w-full z-10">
                 <UContainer class="flex flex-col md:flex-row justify-center md:justify-start items-center">
                     <img :src="animeMeta.image" alt="" class="w-40 md:w-52 rounded-xl relative shadow-lg" />
-                    <div class="flex md:self-end flex-col p-3 gap-3">
+                    <div class="flex md:self-end text-center flex-col p-3 gap-3">
                         <h1 class="font-bold text-xl md:text-2xl" :style="{ color: animeMeta.color }">
                             {{ animeMeta.title.english ?? animeMeta.title?.romanji }}
                         </h1>
@@ -15,7 +15,7 @@
                             <span class="">{{ ((animeMeta.rating / 100) * 5).toFixed(1) }}/5 |
                             </span>
                             <span class="ml-1" :class="{ 'text-green-500': animeMeta.status == 'Completed' }">
-                                {{ animeMeta.status }}
+                                {{ allCaps(animeMeta.status) }}
                             </span>
                         </p>
                         <div class="flex gap-3 items-center justify-center md:justify-normal">
@@ -37,7 +37,7 @@
                 <UContainer v-if="anime != null"
                     class="flex flex-col md:flex-row justify-center md:justify-start items-center">
                     <img :src="anime.image" alt="" class="w-40 md:w-52 rounded-xl relative shadow-lg" />
-                    <div class="flex md:self-end flex-col p-3 gap-3">
+                    <div class="flex md:self-end text-center flex-col p-3 gap-3">
                         <h1 class="font-bold text-xl md:text-2xl text-white">
                             {{ anime.title }}
                         </h1>
@@ -235,17 +235,18 @@
                 </template>
             </UTabs>
             <div class="">
-                <div class="mt-5 w-full" v-if="tmdbMeta != null && anime != null">
+                <div class="mt-5 w-full" v-if="(tmdbMeta != null || animeMeta != null) && anime != null">
                     <h3 class="text-white text-xl">Episodes</h3>
                     <div class="mt-3 max-h-[70vh] overflow-y-auto scroll-p-0">
                         <NuxtLink v-for="(e, i) in anime.episodes" :key="i"
                             :to="'/anime/watch/' + e.id + '?id=' + $route.params.anime + '&externalId=' + animeMeta.id"
                             class="flex gap-3 w-full mb-3 items-center bg-zinc-900 rounded-lg">
-                            <img :src="getAnimeEpisodeNumber(tmdbMeta.episodes, e.number).image ?? anime.image" alt=""
-                                class="w-1/4 h-28 rounded-lg object-cover" />
+                            <img :src="getAnimeEpisodeNumber(tmdbMeta?.episodes ?? animeMeta.episodes, e.number).image ?? anime.image"
+                                alt="" class="w-1/4 h-28 rounded-lg object-cover" />
                             <div class="w-3/4">
                                 <h5 class="text-white text-sm">
-                                    {{ getAnimeEpisodeNumber(tmdbMeta.episodes, e.number).name ?? '' }}
+                                    {{ getAnimeEpisodeNumber(tmdbMeta?.episodes ?? animeMeta.episodes, e.number).name ?? ''
+                                    }}
                                 </h5>
                                 <h5 class="text-white text-sm">EP{{ e.number }}</h5>
                             </div>
@@ -273,6 +274,7 @@
 </template>
 
 <script>
+
 export default {
     data() {
         return {

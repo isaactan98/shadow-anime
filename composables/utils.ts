@@ -83,3 +83,7 @@ export const getCountDown = (date: string) => {
         return "Countdown date is in the past";
     }
 }
+
+export const allCaps = (str: string) => {
+    return str.toUpperCase();
+}
