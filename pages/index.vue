@@ -98,7 +98,10 @@ export default {
             console.log('topAiring', this.topAiring)
         })
         console.log('topAiring', this.topAiring)
-        this.slides = await anilistTrendingSlider().catch(() => []);
+        await anilistTrendingSlider().then((data) => {
+            this.slides = data
+            console.log('slides', this.slides)
+        });
         // this.getRecentRelease(config)
         // this.getTopAiring(config)
         useHead({

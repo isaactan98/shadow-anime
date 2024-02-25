@@ -36,7 +36,7 @@
                             </svg>
                         </UButton>
                     </div>
-                    <div v-if="link.label == 'Profile'">
+                    <div v-else-if="link.label == 'Profile'">
                         <UDropdown :items="items" :popper="{ offsetDistance: 15 }" :ui="{
                             ring: 'ring-0',
                             background: 'bg-zinc-800', item: {
