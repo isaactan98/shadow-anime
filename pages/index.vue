@@ -35,6 +35,26 @@
                         <h1 class="mb-3 text-xl md:text-4xl font-bold leading-normal text-ellipsis text-white">
                             {{ item.title.english ?? item.title.romaji }}</h1>
                         <p class="w-1/2 text-sm md:text-base line-clamp-3" v-html="item.description"></p>
+                        <div class="flex gap-3 items-center text-sm my-3">
+                            <span class="flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                    stroke="currentColor" class="w-5 h-5">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M15.91 11.672a.375.375 0 0 1 0 .656l-5.603 3.113a.375.375 0 0 1-.557-.328V8.887c0-.286.307-.466.557-.327l5.603 3.112Z" />
+                                </svg>
+                                {{ item.type }}
+                            </span>
+                            <span>{{ allCaps(item.status) }}</span>
+                            <span>{{ item.releaseDate }}</span>
+                        </div>
+                        <NuxtLink :to="`/anime/${item.id}?externalId=null`">
+                            <UButton icon="i-heroicons-play-circle" color="purple"
+                                :ui="{ rounded: 'rounded-full', size: 'sm' }">
+                                Watch Now
+                            </UButton>
+                        </NuxtLink>
                     </UContainer>
                 </div>
             </div>

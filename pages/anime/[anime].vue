@@ -4,8 +4,8 @@
             <div class="absolute bottom-10 md:bottom-8 w-full z-10">
                 <UContainer class="flex flex-col md:flex-row justify-center md:justify-start items-center">
                     <img :src="animeMeta.image" alt="" class="w-40 md:w-52 rounded-xl relative shadow-lg" />
-                    <div class="flex md:self-end text-center flex-col p-3 gap-3">
-                        <h1 class="font-bold text-xl md:text-2xl" :style="{ color: animeMeta.color }">
+                    <div class="flex md:self-end text-center md:text-left flex-col p-3 gap-3">
+                        <h1 class="font-bold text-xl md:text-2xl">
                             {{ animeMeta.title.english ?? animeMeta.title?.romanji }}
                         </h1>
                         <h1 class="hidden md:block text-zinc-300">
@@ -37,7 +37,7 @@
                 <UContainer v-if="anime != null"
                     class="flex flex-col md:flex-row justify-center md:justify-start items-center">
                     <img :src="anime.image" alt="" class="w-40 md:w-52 rounded-xl relative shadow-lg" />
-                    <div class="flex md:self-end text-center flex-col p-3 gap-3">
+                    <div class="flex md:self-end text-center md:text-left flex-col p-3 gap-3">
                         <h1 class="font-bold text-xl md:text-2xl text-white">
                             {{ anime.title }}
                         </h1>
