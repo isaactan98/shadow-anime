@@ -1,5 +1,5 @@
 <template>
-    <div class="min-h-screen pt-20">
+    <div class="min-h-screen">
         <div v-if="anime != null">
             <div class="grid grid-cols-1 md:grid-cols-5 mx-3 md:mx-8 md:gap-3">
                 <div class="col-span-4">

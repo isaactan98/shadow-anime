@@ -1,5 +1,5 @@
 <template>
-    <div v-if="waifu" class="pt-20">
+    <div v-if="waifu" class="">
         <UContainer>
             <div class="flex flex-col items-center">
                 <h1 class="text-white text-4xl">Waifu</h1>
