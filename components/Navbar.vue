@@ -1,8 +1,8 @@
 <template>
-    <div class="sticky top-0 z-50 backdrop-blur-sm bg-black/20 w-full mx-auto">
+    <div class="fixed top-0 z-50 backdrop-blur-sm bg-black/20 w-full mx-auto">
         <UContainer>
             <div
-                class="group relative w-full flex justify-between items-center gap-1.5 px-2 py-3.5 rounded-md font-medium text-sm md:hidden">
+                class="relative w-full flex justify-between items-center gap-1.5 px-2 py-3.5 rounded-md font-medium text-sm md:hidden">
                 <div class="flex items-center">
                     <UButton label="Open" :padded="false" color="black" variant="ghost" @click="isOpen = true">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -13,6 +13,25 @@
                     </UButton>
                 </div>
                 <div class="flex items-center">
+                    <UDropdown :items="items" :popper="{ offsetDistance: 15 }"
+                        :ui="{ ring: 'ring-0', background: 'bg-zinc-800', item: { inactive: 'text-white', active: '', hover: 'bg-zinc-900' } }">
+                        <UAvatar
+                            src="https://s1.zerochan.net/Delta.%28Kage.No.Jitsuryokusha.Ni.Naritakute%29.600.3834699.jpg" />
+                    </UDropdown>
+                </div>
+            </div>
+            <div class="hidden md:flex justify-between">
+                <UHorizontalNavigation class="hidden md:flex" :links="navLinks"
+                    :ui="{ active: '!text-purple-500 after:!bg-purple-500', inactive: 'text-zinc-200', icon: { inactive: 'text-zinc-200', active: '!text-purple-500' }, before: 'hover:before:bg-transparent' }">
+                </UHorizontalNavigation>
+                <div class="flex items-center gap-3">
+                    <UButton color="gray" variant="ghost">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                            stroke="currentColor" class="w-6 h-6 text-white">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                        </svg>
+                    </UButton>
                     <UDropdown :items="items" :popper="{ offsetDistance: 15 }" :ui="{
                         ring: 'ring-0',
                         background: 'bg-zinc-800', item: {
@@ -24,51 +43,26 @@
                     </UDropdown>
                 </div>
             </div>
-            <UHorizontalNavigation class="hidden md:flex" :links="navLinks"
-                :ui="{ active: '!text-purple-500 after:!bg-purple-500', inactive: 'text-zinc-200', icon: { inactive: 'text-zinc-200', active: '!text-purple-500' }, before: 'hover:before:bg-transparent' }">
-                <template #default="{ link }">
-                    <div v-if="link.label == 'Search'">
-                        <UButton color="gray" variant="ghost">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                stroke="currentColor" class="w-6 h-6 text-white">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
-                            </svg>
-                        </UButton>
-                    </div>
-                    <div v-else-if="link.label == 'Profile'">
-                        <UDropdown :items="items" :popper="{ offsetDistance: 15 }" :ui="{
-                            ring: 'ring-0',
-                            background: 'bg-zinc-800', item: {
-                                inactive: 'text-white', active: '', hover: 'bg-zinc-900'
-                            }
-                        }">
-                            <UAvatar
-                                src="https://s1.zerochan.net/Delta.%28Kage.No.Jitsuryokusha.Ni.Naritakute%29.600.3834699.jpg" />
-                        </UDropdown>
+        </UContainer>
+        <USlideover v-model="isOpen" side="left">
+            <UCard class="flex flex-col flex-1 bg-zinc-900 rounded-none"
+                :ui="{ body: { base: 'flex-1' }, ring: '', divide: 'divide-y divide-gray-800' }">
+                <template #header>
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-base font-semibold leading-6 text-white">
+                            Navigation
+                        </h3>
+                        <UButton color="gray" variant="ghost" icon="i-heroicons-x-mark-20-solid" class="-my-1"
+                            @click="isOpen = false" />
                     </div>
                 </template>
-            </UHorizontalNavigation>
-        </UContainer>
-    </div>
-    <USlideover v-model="isOpen" side="left">
-        <UCard class="flex flex-col flex-1 bg-zinc-900 rounded-none"
-            :ui="{ body: { base: 'flex-1' }, ring: '', divide: 'divide-y divide-gray-800' }">
-            <template #header>
-                <div class="flex items-center justify-between">
-                    <h3 class="text-base font-semibold leading-6 text-white">
-                        Navigation
-                    </h3>
-                    <UButton color="gray" variant="ghost" icon="i-heroicons-x-mark-20-solid" class="-my-1"
+                <Placeholder class="h-full">
+                    <UVerticalNavigation :links="mobileLinks" class="mt-3" :ui="{ active: 'text-purple-500' }"
                         @click="isOpen = false" />
-                </div>
-            </template>
-            <Placeholder class="h-full">
-                <UVerticalNavigation :links="mobileLinks" class="mt-3" :ui="{ active: 'text-purple-500' }"
-                    @click="isOpen = false" />
-            </Placeholder>
-        </UCard>
-    </USlideover>
+                </Placeholder>
+            </UCard>
+        </USlideover>
+    </div>
 </template>
 
 <script lang="ts">
@@ -96,10 +90,6 @@ export default {
                 label: 'Waifu',
                 icon: 'i-heroicons-command-line',
                 to: '/waifu'
-            }], [{
-                label: 'Search'
-            }, {
-                label: 'Profile',
             }]],
             mobileLinks: [{
                 label: 'Home',

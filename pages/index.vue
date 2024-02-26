@@ -74,13 +74,16 @@
                     :title="anime.title.english ?? anime.title.romaji" :episode="anime.episode" :external-id="null" />
             </div>
         </UContainer>
-        <UContainer v-if="steamingList.length > 0" class="relative top-0 mt-10">
+        <UContainer class="relative top-0 mt-10">
             <h1 class="text-2xl font-semibold text-white mb-5">Today Streaming</h1>
-            <div class="text-white">
+            <div class="text-white" v-if="steamingList.length > 0">
                 <div v-for="list in steamingList" class="flex mb-3 justify-between">
                     <span class="w-3/4">{{ list.time }} {{ list.title }}</span>
                     <span class="flex-1 w-full text-right">{{ list.episode }}</span>
                 </div>
+            </div>
+            <div v-else>
+                <SpiningLoading />
             </div>
         </UContainer>
     </div>
