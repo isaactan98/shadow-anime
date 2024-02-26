@@ -4,15 +4,15 @@
             <div class="absolute bottom-10 md:bottom-8 w-full z-10">
                 <UContainer class="flex flex-col md:flex-row justify-center md:justify-start items-center">
                     <img :src="animeMeta.image" alt="" class="w-40 md:w-52 rounded-xl relative shadow-lg" />
-                    <div class="flex md:self-end text-center md:text-left flex-col p-3 gap-3">
+                    <div class="flex md:self-end text-center md:text-left flex-col p-3 gap-3 text-white">
                         <h1 class="font-bold text-xl md:text-2xl">
                             {{ animeMeta.title.english ?? animeMeta.title?.romanji }}
                         </h1>
                         <h1 class="hidden md:block text-zinc-300">
                             {{ animeMeta.title?.native ?? animeMeta.title?.romanji }}
                         </h1>
-                        <p class="flex justify-center md:justify-start text-zinc-300">
-                            <span class="">{{ ((animeMeta.rating / 100) * 5).toFixed(1) }}/5 |
+                        <p class="flex justify-center items-center md:justify-start text-zinc-300">
+                            <span class="">{{ ((animeMeta.rating / 100) * 5).toFixed(1) }} / 5 |
                             </span>
                             <span class="ml-1" :class="{ 'text-green-500': animeMeta.status == 'Completed' }">
                                 {{ allCaps(animeMeta.status) }}
@@ -161,7 +161,7 @@
                                     <h5 class="text-white font-semibold md:text-2xl">
                                         Description
                                     </h5>
-                                    <div class="mt-3 min-h-36 overflow-y-auto">
+                                    <div class="mt-3 min-h-36 max-h-48 overflow-y-auto">
                                         <p v-html="animeMeta?.description ?? anime.description"
                                             class="text-zinc-300 text-justify text-sm"></p>
                                     </div>

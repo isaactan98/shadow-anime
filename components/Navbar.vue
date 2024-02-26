@@ -1,12 +1,12 @@
 <template>
-    <div class="fixed top-0 z-50 backdrop-blur-sm bg-black/20 w-full mx-auto">
+    <div class="sticky top-0 z-50 backdrop-blur-sm bg-black/20 w-full mx-auto">
         <UContainer>
             <div
                 class="group relative w-full flex justify-between items-center gap-1.5 px-2 py-3.5 rounded-md font-medium text-sm md:hidden">
                 <div class="flex items-center">
                     <UButton label="Open" :padded="false" color="black" variant="ghost" @click="isOpen = true">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                            stroke="currentColor" class="w-6 h-6">
+                            stroke="currentColor" class="w-6 h-6 text-white">
                             <path stroke-linecap="round" stroke-linejoin="round"
                                 d="M3.75 6.75h16.5M3.75 12H12m-8.25 5.25h16.5" />
                         </svg>

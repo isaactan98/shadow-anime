@@ -6,7 +6,7 @@
                     class="absolute top-0 h-full w-full md:h-[80vh] overflow-hidden bg-gradient-to-bl from-transparent to-zinc-950 ">
                 </div>
                 <img :src="item.cover" width="200" height="200" class="h-full w-full object-cover overflow-hidden">
-                <div class="absolute bottom-16 md:top-2/3 left-10 w-3/4 md:w-full drop-shadow-sm text-zinc-300">
+                <div class="absolute bottom-16 md:bottom-10 left-10 w-3/4 md:w-full drop-shadow-sm text-zinc-300">
                     <UContainer :ui="{ padding: 'p-1 sm:p-1 lg:p-1' }" class="md:hidden">
                         <h1 class="mb-3 text-xl md:text-4xl font-bold leading-normal text-ellipsis text-white">
                             {{ item.title.english ?? item.title.romaji }}</h1>
@@ -74,6 +74,15 @@
                     :title="anime.title.english ?? anime.title.romaji" :episode="anime.episode" :external-id="null" />
             </div>
         </UContainer>
+        <UContainer v-if="steamingList.length > 0" class="relative top-0 mt-10">
+            <h1 class="text-2xl font-semibold text-white mb-5">Today Streaming</h1>
+            <div class="text-white">
+                <div v-for="list in steamingList" class="flex mb-3 justify-between">
+                    <span class="w-3/4">{{ list.time }} {{ list.title }}</span>
+                    <span class="flex-1 w-full text-right">{{ list.episode }}</span>
+                </div>
+            </div>
+        </UContainer>
     </div>
 </template>
 
@@ -85,7 +94,7 @@ export default {
             slides: [] as any[],
             recentRelease: [] as any[],
             topAiring: [] as any[],
-            steamingList: []
+            steamingList: [] as any[],
         }
     },
     async mounted() {
@@ -110,6 +119,11 @@ export default {
                 { name: 'description', content: 'Home' },
             ],
 
+        })
+
+        await getTodayStream().then((data) => {
+            this.steamingList = data
+            console.log('steamingList', this.steamingList)
         })
     },
     methods: {

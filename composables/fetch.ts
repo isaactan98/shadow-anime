@@ -124,3 +124,42 @@ export const getTmdbSeasonEpisodes = async (id: string, season: number) => {
     }
     return response;
 }
+
+export const getTodayStream = async () => {
+    let lists = [] as any[]
+    const date = {} as any;
+    let fullDate = new Date();
+
+    var today = new Date();
+    fullDate = today;
+    var dd = date.day = String(today.getDate()).padStart(2, '0');
+    var mm = date.month = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = date.year = today.getFullYear();
+
+    date.month = fullDate.toLocaleString('default', { month: 'long' })
+    let config = useRuntimeConfig();
+
+    // let testUrl = "https://aniwatch.to/ajax/schedule/list?tzOffset=-480&date=2023-07-06"
+    let testUrl = "https://aniwatch.to/ajax/schedule/list?tzOffset=-480&date=" + yyyy + '-' + mm + '-' + dd
+
+    await fetch(config['public'].corsApi + testUrl)
+        .then((res) => res.json()).then((html) => {
+            var parser = new DOMParser();
+            var doc = parser.parseFromString(html.html, "text/html");
+            var result = doc.querySelectorAll(".tsl-link");
+            result.forEach((item: any, index) => {
+                // console.log("item", item);
+                if (lists[index] === undefined) {
+                    lists[index] = {};
+                }
+                lists[index].title = item.querySelector(".dynamic-name").innerText;
+                lists[index].time = item.querySelector(".time")?.innerText;
+                lists[index].episode = item.querySelector(".btn-play")?.innerText;
+            });
+            console.log("lists", lists);
+        }).catch((err) => {
+            console.log("Error: ", err);
+        })
+
+    return lists;
+}
