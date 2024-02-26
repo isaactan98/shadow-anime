@@ -58,6 +58,12 @@ export const getAnimeEpisodeNumber = (data: any, number: number) => {
     return '';
 }
 
+export const getIdFromEpisode = (episodes: any) => {
+    return episodes.map((episode: any) => {
+        return episode.id.split('-episode')[0];
+    });
+}
+
 export const getDate = (year: string, month: string, date: string) => {
     let monthInt = parseInt(month) - 1;
     return new Date(parseInt(year), monthInt, parseInt(date)).toUTCString().split(' ').slice(0, 4).join(' ');

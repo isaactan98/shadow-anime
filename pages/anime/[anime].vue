@@ -245,7 +245,8 @@
                                 alt="" class="w-1/4 h-28 rounded-lg object-cover" />
                             <div class="w-3/4">
                                 <h5 class="text-white text-sm">
-                                    {{ getAnimeEpisodeNumber(tmdbMeta?.episodes ?? animeMeta.episodes, e.number).name ?? ''
+                                    {{ getAnimeEpisodeNumber(tmdbMeta?.episodes ?? animeMeta.episodes, e.number).name ??
+                                        getAnimeEpisodeNumber(tmdbMeta?.episodes ?? animeMeta.episodes, e.number).title ?? ''
                                     }}
                                 </h5>
                                 <h5 class="text-white text-sm">EP{{ e.number }}</h5>
@@ -306,14 +307,17 @@ export default {
         }).catch(() => null);
         this.recommendations = this.animeMeta.recommendations;
         this.relations = this.animeMeta.relations;
-        const mapping = this.animeMeta.mappings.find((mapping) => mapping.providerId === 'tmdb');
-        const gogoAnime = this.animeMeta.mappings.find((mapping) => mapping.providerId === 'gogoanime');
+        const mapping = this.animeMeta.mappings?.find((mapping) => mapping.providerId === 'tmdb');
+        const gogoAnime = this.animeMeta.mappings?.find((mapping) => mapping.providerId === 'gogoanime');
+        if (gogoAnime == null) {
+            this.anime = await this.getAnime(config, getIdFromEpisode(this.animeMeta.episodes)[0]);
+        }
         console.log('gogoAnime', gogoAnime);
         if (mapping) {
             this.tmdbMeta = await getTmdbSeasonEpisodes(mapping.id.split('/tv/')[1], 1);
             console.log('tmdbMeta', this.tmdbMeta);
         }
-        this.anime = await this.getAnime(config, gogoAnime);
+        this.anime = await this.getAnime(config, gogoAnime.id.split("/category/")[1]);
         console.log("animeMeta", this.animeMeta);
         useHead({
             title: this.animeMeta.title.english ?? this.anime.title,
@@ -323,7 +327,7 @@ export default {
     methods: {
         async getAnime(config, route) {
             var url = "";
-            url = config["public"].apiUrl + "info/" + route.id.split("/category/")[1];
+            url = config["public"].apiUrl + "info/" + route;
             const res = await fetch(url)
                 .then((response) => response.json())
                 .catch((err) => {
