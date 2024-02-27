@@ -59,7 +59,7 @@ export default defineNuxtConfig({
         }
       ],
       script: [
-        "https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"
+        { src: "https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js" }
       ]
     },
   },

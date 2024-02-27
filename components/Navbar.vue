@@ -13,11 +13,11 @@
                     </UButton>
                 </div>
                 <div class="flex items-center">
-                    <UDropdown :items="items" :popper="{ offsetDistance: 15 }"
+                    <!-- <UDropdown :items="items" :popper="{ offsetDistance: 15 }"
                         :ui="{ ring: 'ring-0', background: 'bg-zinc-800', item: { inactive: 'text-white', active: '', hover: 'bg-zinc-900' } }">
                         <UAvatar
                             src="https://s1.zerochan.net/Delta.%28Kage.No.Jitsuryokusha.Ni.Naritakute%29.600.3834699.jpg" />
-                    </UDropdown>
+                    </UDropdown> -->
                 </div>
             </div>
             <div class="hidden md:flex justify-between">
@@ -32,7 +32,7 @@
                                 d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
                         </svg>
                     </UButton>
-                    <UDropdown :items="items" :popper="{ offsetDistance: 15 }" :ui="{
+                    <!-- <UDropdown :items="items" :popper="{ offsetDistance: 15 }" :ui="{
                         ring: 'ring-0',
                         background: 'bg-zinc-800', item: {
                             inactive: 'text-white', active: '', hover: 'bg-zinc-900'
@@ -40,7 +40,7 @@
                     }">
                         <UAvatar
                             src="https://s1.zerochan.net/Delta.%28Kage.No.Jitsuryokusha.Ni.Naritakute%29.600.3834699.jpg" />
-                    </UDropdown>
+                    </UDropdown> -->
                 </div>
             </div>
         </UContainer>
