@@ -75,15 +75,34 @@
             </div>
         </UContainer>
         <UContainer class="relative top-0 mt-10">
-            <h1 class="text-2xl font-semibold text-white mb-5">Today Streaming</h1>
-            <div class="text-white" v-if="steamingList.length > 0">
-                <div v-for="list in steamingList" class="flex mb-3 justify-between">
-                    <span class="w-3/4">{{ list.time }} {{ list.title }}</span>
-                    <span class="flex-1 w-full text-right">{{ list.episode }}</span>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <div>
+                    <h1 class="text-2xl font-semibold text-white mb-5">Aniwatch Streaming</h1>
+                    <div class="text-white" v-if="steamingList.length > 0">
+                        <div v-for="list in steamingList" class="flex mb-3 justify-between">
+                            <div class="w-3/4 flex gap-2">
+                                <span>{{ list.time }}</span>
+                                <p>{{ list.title }}</p>
+                            </div>
+                            <span class="flex-1 w-full text-right">{{ list.episode }}</span>
+                        </div>
+                    </div>
+                    <div v-else>
+                        <SpiningLoading />
+                    </div>
                 </div>
-            </div>
-            <div v-else>
-                <SpiningLoading />
+                <div>
+                    <h1 class="text-2xl font-semibold text-white mb-5">Anitaku Streaming</h1>
+                    <div class="text-white" v-if="gogoAnimeRecentRelease.length > 0">
+                        <div v-for="list in gogoAnimeRecentRelease" class="flex mb-3 justify-between">
+                            <span class="w-3/4">{{ list.title }}</span>
+                            <span class="flex-1 w-full text-right">{{ list.episodeNumber }}</span>
+                        </div>
+                    </div>
+                    <div v-else>
+                        <SpiningLoading />
+                    </div>
+                </div>
             </div>
         </UContainer>
     </div>
@@ -98,6 +117,7 @@ export default {
             recentRelease: [] as any[],
             topAiring: [] as any[],
             steamingList: [] as any[],
+            gogoAnimeRecentRelease: [] as any[],
         }
     },
     async mounted() {
@@ -128,17 +148,19 @@ export default {
             this.steamingList = data
             console.log('steamingList', this.steamingList)
         })
+        await this.getRecentRelease()
     },
     methods: {
-        async getRecentRelease(config: any) {
+        async getRecentRelease() {
             var url = ''
+            const config = useRuntimeConfig();
             url = config['public'].apiUrl + 'recent-episodes'
             await fetch(url)
                 .then(response => response.json())
                 .then(data => {
                     console.log('data', data)
                     if (data.results.length > 0) {
-                        this.recentRelease = data.results
+                        this.gogoAnimeRecentRelease = data.results.slice(0, 5)
                     } else {
                         alert(data.message)
                     }
@@ -147,25 +169,7 @@ export default {
                     alert('Something went wrong, please try again later')
                     console.log(err)
                 });
-        },
-        async getTopAiring(config: any) {
-            var url = ''
-            url = config['public'].apiUrl + 'top-airing'
-            await fetch(url)
-                .then(response => response.json())
-                .then(data => {
-                    // console.log(data)
-                    if (data.results.length > 0) {
-                        this.topAiring = data.results
-                    } else {
-                        alert(data.message)
-                    }
-                })
-                .catch(err => {
-                    alert('Something went wrong, please try again later')
-                    // console.log(err)
-                });
-        },
+        }
     }
 }
 </script>
