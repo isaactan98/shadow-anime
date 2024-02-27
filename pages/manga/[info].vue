@@ -2,7 +2,7 @@
     <div class="container p-4 mx-auto min-h-screen">
         <div v-if="manga != null" class="">
             <div>
-                <img :src="manga.image" alt="" class="rounded-2xl w-full">
+                <img :src="imageProxy(manga.image)" alt="" class="rounded-2xl w-full">
             </div>
             <div class="text-white mt-3">
                 <h1 class="font-bold text-xl">

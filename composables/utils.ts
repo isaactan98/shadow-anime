@@ -93,3 +93,7 @@ export const getCountDown = (date: string) => {
 export const allCaps = (str: string) => {
     return str.toUpperCase();
 }
+
+export const imageProxy = (url: string) => {
+    return `https://image-proxy-amber.vercel.app//image-proxy?url=${encodeURIComponent(url)}&headers=${encodeURIComponent(JSON.stringify({ Referer: "https://mangadex.org" }))}`;
+}
