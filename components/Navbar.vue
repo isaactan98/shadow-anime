@@ -1,5 +1,5 @@
 <template>
-    <div class="fixed top-0 z-50 backdrop-blur-sm bg-black/20 w-full mx-auto">
+    <div class="sticky top-0 z-50 backdrop-blur-sm bg-black/20 w-full mx-auto">
         <UContainer>
             <div
                 class="relative w-full flex justify-between items-center gap-1.5 px-2 py-3.5 rounded-md font-medium text-sm md:hidden">

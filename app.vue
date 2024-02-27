@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div class="relative">
     <NuxtLoadingIndicator color="#c084fc" />
-    <div class="min-h-screen bg-zinc-950">
+    <div class="relative min-h-screen bg-zinc-950">
       <Navbar />
       <NuxtLayout>
         <NuxtPage />
