@@ -2,9 +2,7 @@
     <UContainer>
         <div class="relative">
             <div v-if="chapter">
-                <img v-for="c in chapter" loading="lazy" :key="c"
-                    :src="'https://api-consumet-55ajst2bq-isaactan98.vercel.app/utils/image-proxy?url=' + c.img + '&referer=http://www.mangadex.org'"
-                    alt="" class="w-full">
+                <img v-for="c in chapter" loading="lazy" :key="c" :src="c.img" alt="" class="w-full">
             </div>
             <div v-else class="w-full min-h-screen flex justify-center mt-5">
                 <SpiningLoading></SpiningLoading>
