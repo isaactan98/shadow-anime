@@ -1,38 +1,39 @@
 <template>
-    <div class="sticky top-0 z-50 backdrop-blur-sm bg-black/20 w-full mx-auto">
-        <UContainer>
-            <div
-                class="relative w-full flex justify-between items-center gap-1.5 px-2 py-3.5 rounded-md font-medium text-sm md:hidden">
-                <div class="flex items-center">
-                    <UButton label="Open" :padded="false" color="black" variant="ghost" @click="isOpen = true">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                            stroke="currentColor" class="w-6 h-6 text-white">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M3.75 6.75h16.5M3.75 12H12m-8.25 5.25h16.5" />
-                        </svg>
-                    </UButton>
-                </div>
-                <div class="flex items-center">
-                    <!-- <UDropdown :items="items" :popper="{ offsetDistance: 15 }"
+    <div class="fixed w-full top-0 z-50">
+        <nav class="backdrop-blur-sm bg-black/20 w-full mx-auto">
+            <UContainer>
+                <div
+                    class="relative w-full flex justify-between items-center gap-1.5 px-2 py-3.5 rounded-md font-medium text-sm md:hidden">
+                    <div class="flex items-center">
+                        <UButton label="Open" :padded="false" color="black" variant="ghost" @click="isOpen = true">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                stroke="currentColor" class="w-6 h-6 text-white">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M3.75 6.75h16.5M3.75 12H12m-8.25 5.25h16.5" />
+                            </svg>
+                        </UButton>
+                    </div>
+                    <div class="flex items-center">
+                        <!-- <UDropdown :items="items" :popper="{ offsetDistance: 15 }"
                         :ui="{ ring: 'ring-0', background: 'bg-zinc-800', item: { inactive: 'text-white', active: '', hover: 'bg-zinc-900' } }">
                         <UAvatar
                             src="https://s1.zerochan.net/Delta.%28Kage.No.Jitsuryokusha.Ni.Naritakute%29.600.3834699.jpg" />
                     </UDropdown> -->
+                    </div>
                 </div>
-            </div>
-            <div class="hidden md:flex justify-between">
-                <UHorizontalNavigation class="hidden md:flex" :links="navLinks"
-                    :ui="{ active: '!text-purple-500 after:!bg-purple-500', inactive: 'text-zinc-200', icon: { inactive: 'text-zinc-200', active: '!text-purple-500' }, before: 'hover:before:bg-transparent' }">
-                </UHorizontalNavigation>
-                <div class="flex items-center gap-3">
-                    <UButton color="gray" variant="ghost">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                            stroke="currentColor" class="w-6 h-6 text-white">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
-                        </svg>
-                    </UButton>
-                    <!-- <UDropdown :items="items" :popper="{ offsetDistance: 15 }" :ui="{
+                <div class="hidden md:flex justify-between">
+                    <UHorizontalNavigation class="hidden md:flex" :links="navLinks"
+                        :ui="{ active: '!text-purple-500 after:!bg-purple-500', inactive: 'text-zinc-200', icon: { inactive: 'text-zinc-200', active: '!text-purple-500' }, before: 'hover:before:bg-transparent' }">
+                    </UHorizontalNavigation>
+                    <div class="flex items-center gap-3">
+                        <UButton color="gray" variant="ghost">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                stroke="currentColor" class="w-6 h-6 text-white">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                            </svg>
+                        </UButton>
+                        <!-- <UDropdown :items="items" :popper="{ offsetDistance: 15 }" :ui="{
                         ring: 'ring-0',
                         background: 'bg-zinc-800', item: {
                             inactive: 'text-white', active: '', hover: 'bg-zinc-900'
@@ -41,9 +42,10 @@
                         <UAvatar
                             src="https://s1.zerochan.net/Delta.%28Kage.No.Jitsuryokusha.Ni.Naritakute%29.600.3834699.jpg" />
                     </UDropdown> -->
+                    </div>
                 </div>
-            </div>
-        </UContainer>
+            </UContainer>
+        </nav>
         <USlideover v-model="isOpen" side="left">
             <UCard class="flex flex-col flex-1 bg-zinc-900 rounded-none"
                 :ui="{ body: { base: 'flex-1' }, ring: '', divide: 'divide-y divide-gray-800' }">
