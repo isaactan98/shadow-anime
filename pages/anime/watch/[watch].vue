@@ -84,8 +84,12 @@ export default {
             const url = config['public'].apiUrl + 'info/' + id
             const res = await fetch(url)
             const data = await res.json()
-            console.log("getAnime: ",data)
+            console.log("getAnime: ", data)
             this.anime = data
+
+            if (this.anime && this.anime.episodes.length > 0) {
+                this.anime.episodes = this.anime.episodes.sort((a: any, b: any) => b.number - a.number)
+            }
         },
         async getEpisode(config: RuntimeConfig) {
             const url = config['public'].apiUrl + 'watch/' + this.$route.params.watch

@@ -1,5 +1,5 @@
 <template>
-    <div class="fixed w-full top-0 z-50">
+    <div class="sticky w-full top-0 z-50">
         <nav class="backdrop-blur-sm bg-black/20 w-full mx-auto">
             <UContainer>
                 <div
