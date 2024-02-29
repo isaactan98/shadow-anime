@@ -1,7 +1,7 @@
 <template>
     <UContainer>
-        <div class="p-4 mx-auto min-h-screen">
-            <div class="text-white my-4 min-h-[20vh] flex items-center">
+        <div class="p-4 mx-auto min-h-screen relative">
+            <div class="text-white my-4 min-h-[20vh] flex items-center z-10 relative">
                 <h1 class="text-4xl font-extrabold">
                     Your Favourite <br>
                     <span class="text-purple-500 flex items-center">Manga
@@ -14,7 +14,7 @@
                 </h1>
             </div>
 
-            <div class="container mx-auto">
+            <div class="container mx-auto z-10 relative">
                 <div class="w-full md:w-2/3">
                     <form @submit.prevent="searchManga()" class="w-full flex items-center">
                         <input type="text"
@@ -33,28 +33,17 @@
                 </div>
             </div>
 
-            <div class="container mx-auto mt-8 relative">
+            <div class="container mx-auto mt-8 relative z-10">
                 <div class="ml-3 mb-5 underline underline-offset-2 w-full flex text-white" v-if="manga.length > 0">
                     Result: {{ manga.length ?? '0' }}
                 </div>
                 <div class="grid grid-cols-2 md:grid-cols-3 gap-2" v-if="loading == false">
-                    <NuxtLink class="text-white px-3 py-3 bg-slate-800 rounded-2xl mb-3" v-for="m in manga" :key="m"
-                        :to="'/manga/' + m.id">
-                        <div class="object-contain">
-                            <img :src="m.image" alt="" class="rounded-xl object-cover w-full h-64 lg:h-[32rem]">
-                        </div>
-                        <hr class=" my-2">
-                        <div>{{ m.title }}</div>
+                    <NuxtLink class="text-white" v-for="m in manga" :key="m" :to="'/manga/' + m.id">
+                        <UCard :ui="{ background: 'bg-zinc-800' }">{{ m.title }}</UCard>
                     </NuxtLink>
                 </div>
                 <div class="absolute w-full flex items-center justify-center" v-else>
                     <SpiningLoading />
-                </div>
-                <div class="w-full flex justify-center mt-3" v-if="manga.length > 0">
-                    <!-- <NuxtLink class="text-white">Load More</NuxtLink> -->
-                </div>
-                <div class="w-full md:w-2/3" v-if="manga.length == 0">
-                    <img src="https://shadow-garden.jp/assets/img/character/chara10_main1.png" class=" w-full" alt="">
                 </div>
 
                 <div v-if="nextPage" class="w-full flex">
@@ -67,6 +56,10 @@
                         </button>
                     </div>
                 </div>
+            </div>
+
+            <div class="absolute w-full md:w-2/3 top-10">
+                <img src="https://shadow-garden.jp/assets/img/character/chara10_main1.png" class="w-full opacity-50" alt="">
             </div>
         </div>
     </UContainer>
