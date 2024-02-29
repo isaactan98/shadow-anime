@@ -63,14 +63,14 @@
         <UContainer v-if="recentRelease.length > 0" class="relative top-0 mt-10">
             <h1 class="text-2xl font-semibold text-white mb-5">Recent Release</h1>
             <div class="flex overflow-x-auto gap-5 w-full snap-x scroll-smooth">
-                <AnimeCard v-for="anime in recentRelease" :id="anime.id" :image="anime.image"
+                <AnimeCard v-for="anime in recentRelease" :id="anime.id" :image="anime.image" :data="anime"
                     :title="anime.title.english ?? anime.title.romaji" :episode="anime.episodeNumber" :external-id="null" />
             </div>
         </UContainer>
         <UContainer v-if="topAiring.length > 0" class="relative top-0 mt-10">
             <h1 class="text-2xl font-semibold text-white mb-5">Top Airing</h1>
             <div class="flex overflow-x-auto gap-5 w-full snap-x scroll-smooth">
-                <AnimeCard v-for="anime in topAiring" :id="anime.id" :image="anime.image"
+                <AnimeCard v-for="anime in topAiring" :id="anime.id" :image="anime.image" :data="anime"
                     :title="anime.title.english ?? anime.title.romaji" :episode="anime.episode" :external-id="null" />
             </div>
         </UContainer>

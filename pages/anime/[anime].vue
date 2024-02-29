@@ -6,10 +6,10 @@
                     <img :src="animeMeta.image" alt="" class="w-40 md:w-52 rounded-xl relative shadow-lg" />
                     <div class="flex md:self-end text-center md:text-left flex-col p-3 gap-3 text-white">
                         <h1 class="font-bold text-xl md:text-2xl">
-                            {{ animeMeta.title.english ?? animeMeta.title?.romanji }}
+                            {{ checkNull(animeMeta.title.english) ? animeMeta.title.english : animeMeta.title.romaji }}
                         </h1>
                         <h1 class="hidden md:block text-zinc-300">
-                            {{ animeMeta.title?.native ?? animeMeta.title?.romanji }}
+                            {{ animeMeta.title?.native ?? animeMeta.title?.romaji }}
                         </h1>
                         <p class="flex justify-center items-center md:justify-start text-zinc-300">
                             <span class="">{{ ((animeMeta.rating / 100) * 5).toFixed(1) }} / 5 |
@@ -20,7 +20,6 @@
                         </p>
                         <div class="flex gap-3 items-center justify-center md:justify-normal">
                             <UButton label="Add to Watchlist" color="gray" />
-                            <UButton label="Watch Now" color="purple" />
                         </div>
                     </div>
                 </UContainer>
@@ -207,7 +206,7 @@
                             <h3 class="text-white text-xl mb-3">Relations</h3>
                             <div class="flex overflow-x-auto gap-3 w-full snap-x scroll-smooth">
                                 <AnimeCard v-for="meta in relations" :id="meta.externalId" :title="meta.title.english"
-                                    :image="meta.image" :episode="meta.episodes" :external-id="meta.id" />
+                                    :image="meta.image" :episode="meta.episodes" :external-id="meta.id" :data="meta" />
                             </div>
                         </div>
                     </UCard>
@@ -265,8 +264,8 @@
                 <h3 class="text-white text-xl mb-3">Recommendations</h3>
                 <div class="flex overflow-x-auto gap-5 w-full snap-x scroll-smooth">
                     <AnimeCard v-for="anime in recommendations" :id="anime.id"
-                        :title="anime.title.english ?? anime.title.romanji" :image="anime.image" :episode="anime.episodes"
-                        :external-id="null" />
+                        :title="anime.title.english ?? anime.title.romaji" :image="anime.image" :episode="anime.episodes"
+                        :external-id="null" :data="anime" />
                 </div>
             </div>
         </UContainer>
@@ -304,12 +303,15 @@ export default {
         const config = useRuntimeConfig();
         await getAnimeInfo(this.$route.params.anime).then((d) => {
             this.animeMeta = d;
-        }).catch(() => null);
+        }).catch(() => {
+            alert("Anime not found");
+            this.$router.push("/");
+        });
         this.recommendations = this.animeMeta.recommendations;
         this.relations = this.animeMeta.relations;
         const mapping = this.animeMeta.mappings?.find((mapping) => mapping.providerId === 'tmdb');
         const gogoAnime = this.animeMeta.mappings?.find((mapping) => mapping.providerId === 'gogoanime');
-        if (gogoAnime == null) {
+        if (gogoAnime == null && this.animeMeta.episodes.length > 0) {
             this.anime = await this.getAnime(config, getIdFromEpisode(this.animeMeta.episodes)[0]);
         }
         console.log('gogoAnime', gogoAnime);
@@ -317,10 +319,12 @@ export default {
             this.tmdbMeta = await getTmdbSeasonEpisodes(mapping.id.split('/tv/')[1], 1);
             console.log('tmdbMeta', this.tmdbMeta);
         }
-        this.anime = await this.getAnime(config, gogoAnime.id.split("/category/")[1]);
+        if (checkNull(gogoAnime)) {
+            this.anime = await this.getAnime(config, gogoAnime.id.split("/category/")[1]);
+        }
         console.log("animeMeta", this.animeMeta);
         useHead({
-            title: this.animeMeta.title.english ?? this.anime.title,
+            title: this.animeMeta.title.english ?? this.animeMeta.title.romaji,
             meta: [{ name: "description", content: "Anime" }],
         });
     },

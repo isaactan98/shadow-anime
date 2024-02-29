@@ -97,3 +97,8 @@ export const allCaps = (str: string) => {
 export const imageProxy = (url: string) => {
     return `https://image-proxy-amber.vercel.app//image-proxy?url=${encodeURIComponent(url)}&headers=${encodeURIComponent(JSON.stringify({ Referer: "https://mangadex.org" }))}`;
 }
+
+export const checkNull = (value: any) => {
+    console.log(`is null? ${value} ${value != null && value != undefined && value != '' && value != 'null' && value != 'undefined'}`);
+    return value != null && value != undefined && value != '';
+}
