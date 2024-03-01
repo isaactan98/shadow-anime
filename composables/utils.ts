@@ -99,6 +99,6 @@ export const imageProxy = (url: string) => {
 }
 
 export const checkNull = (value: any) => {
-    console.log(`is null? ${value} ${value != null && value != undefined && value != '' && value != 'null' && value != 'undefined'}`);
-    return value != null && value != undefined && value != '';
+    // console.log(`is null? ${value} ${value != null && value != undefined && value != '' && value != 'null' && value != 'undefined'}`);
+    return value != null && value != undefined && value != '' && value != 'null' && value != 'undefined';
 }

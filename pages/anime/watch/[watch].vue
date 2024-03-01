@@ -1,6 +1,6 @@
 <template>
     <div class="min-h-screen">
-        <div v-if="anime != null">
+        <div v-if="checkNull(animeMeta) && checkNull(anime)">
             <div class="grid grid-cols-1 md:grid-cols-5 mx-3 md:mx-8 md:gap-3">
                 <div class="col-span-4">
                     <div>
@@ -10,15 +10,30 @@
                     </div>
                     <div class="text-zinc-300 text-lg gap-3">
                         <NuxtLink :to="`/anime/${$route.query.id}?externalId=${$route.query.externalId}`">
-                            <h3 class="text-purple-500 font-bold">{{ animeMeta.title?.english ?? anime.title }}</h3>
+                            <h3 class="text-purple-500 font-bold">
+                                {{ checkNull(animeMeta.title?.english) ? animeMeta.title?.english : animeMeta.title?.romaji
+                                }}
+                            </h3>
                         </NuxtLink>
                         <h3 class="font-semibold my-3">
-                            EP {{ getAnimeEpisode().number }}
+                            EPISODE {{ getAnimeEpisode().number }}
                             <span v-if="animeMeta">
-                                - {{ getAnimeEpisodeNumber(animeMeta.episodes,
-                                    getAnimeEpisode().number).title }}
+                                - {{ getAnimeEpisodeNumber(tmdbAnime?.episodes ?? animeMeta.episodes,
+                                    getAnimeEpisode().number).name
+                                    ??
+                                    getAnimeEpisodeNumber(tmdbAnime?.episodes ?? animeMeta.episodes,
+                                        getAnimeEpisode().number).title ??
+                                    '' }}
                             </span>
                         </h3>
+                    </div>
+                    <div>
+                        <span v-if="animeMeta?.nextAiringEpisode" class="text-zinc-300 col-span-2">
+                            Next episode {{ animeMeta?.nextAiringEpisode.episode }} -
+                            {{
+                                getCountDown(animeMeta?.nextAiringEpisode.airingTime)
+                            }}
+                        </span>
                     </div>
                     <!-- <span class="flex text-zinc-400 mt-3 text-sm">
                         Released on Nov 13, 2018
@@ -32,11 +47,15 @@
                                 :to="`/anime/watch/${ep.id}?id=${$route.query.id}&externalId=${$route.query.externalId}`"
                                 class="flex gap-3 w-full mb-3 items-center border rounded-lg"
                                 :class="{ 'border-2 border-purple-500': ep.id == $route.params.watch }">
-                                <img v-if="animeMeta" :src="getAnimeEpisodeNumber(animeMeta.episodes, ep.number).image"
-                                    alt="" class="w-28 h-28 rounded-lg object-cover">
-                                <div>
+                                <AnimeEpImg v-if="animeMeta"
+                                    :src="getAnimeEpisodeNumber(tmdbAnime?.episodes ?? animeMeta.episodes, ep.number).image ?? anime.image"
+                                    :ep="ep.number" />
+                                <div class="w-3/5 md:w-3/4">
                                     <h5 v-if="animeMeta" class="text-white text-sm">
-                                        {{ getAnimeEpisodeNumber(animeMeta.episodes, ep.number).title }}
+                                        {{ getAnimeEpisodeNumber(tmdbAnime?.episodes ?? animeMeta.episodes, ep.number).name
+                                            ??
+                                            getAnimeEpisodeNumber(tmdbAnime?.episodes ?? animeMeta.episodes, ep.number).title ??
+                                            '' }}
                                     </h5>
                                     <h5 class="text-white text-sm">EP{{ ep.number }}</h5>
                                 </div>
@@ -59,21 +78,31 @@ export default {
             animeMeta: null as any,
             relations: [],
             recommendations: [],
-            episode: null as any
+            episode: null as any,
+            tmdbAnime: null as any,
         }
     },
     async mounted() {
         const config = useRuntimeConfig();
         if (this.$route.query.id != null) this.animeMeta = await getAnimeInfo(this.$route.query.id.toString())
         const gogoAnime = this.animeMeta.mappings.find((mapping: any) => mapping.providerId === 'gogoanime');
+        const mapping = this.animeMeta.mappings?.find((mapping: any) => mapping.providerId === 'tmdb');
         if (gogoAnime) {
             await this.getAnime(config, gogoAnime.id.split("/category/")[1])
             console.log(this.anime, gogoAnime.id.split("/category/")[1])
         }
+        if (mapping) {
+            if (!checkNull(tmdb.getData())) {
+                this.tmdbAnime = await getTmdbSeasonEpisodes(mapping.id.split('/tv/')[1], 1);
+                tmdb.setData(this.tmdbAnime)
+                this.tmdbAnime = tmdb.getData()
+            } else this.tmdbAnime = tmdb.getData()
+            console.log(`TMDB: ${this.tmdbAnime.episodes}`)
+        }
         await this.getEpisode(config)
         console.log(this.animeMeta)
         useHead({
-            title: `Episode ${this.getAnimeEpisode().number} - ${this.anime?.title}`,
+            title: `Episode ${this.getAnimeEpisode().number} - ${checkNull(this.animeMeta.title?.english) ? this.animeMeta.title?.english : this.animeMeta.title?.romaji}`,
             meta: [
                 { name: 'description', content: this.anime?.description },
             ],
@@ -99,7 +128,7 @@ export default {
             this.episode = data
         },
         getAnimeEpisode() {
-            return this.animeMeta.episodes.find((ep: any) => ep.id == this.$route.params.watch)
+            return this.animeMeta.episodes.find((ep: any) => ep.id == this.$route.params.watch) || this.anime.episodes.find((ep: any) => ep.id == this.$route.params.watch)
         },
     },
 

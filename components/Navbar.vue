@@ -23,7 +23,7 @@
                 </div>
                 <div class="hidden md:flex justify-between">
                     <UHorizontalNavigation class="hidden md:flex" :links="navLinks"
-                        :ui="{ active: '!text-purple-500 after:!bg-purple-500', inactive: 'text-zinc-200', icon: { inactive: 'text-zinc-200', active: '!text-purple-500' }, before: 'hover:before:bg-transparent' }">
+                        :ui="{ active: '!text-purple-500 after:!bg-purple-500', inactive: 'text-zinc-200 hover:text-purple-500', icon: { inactive: 'text-zinc-200 group-hover:text-purple-500', active: '!text-purple-500' }, before: 'hover:before:bg-transparent' }">
                     </UHorizontalNavigation>
                     <div class="flex items-center gap-3">
                         <UButton color="gray" variant="ghost">

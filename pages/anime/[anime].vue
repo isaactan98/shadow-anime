@@ -240,15 +240,18 @@
                         <NuxtLink v-for="(e, i) in anime.episodes" :key="i"
                             :to="'/anime/watch/' + e.id + '?id=' + $route.params.anime + '&externalId=' + animeMeta.id"
                             class="flex gap-3 w-full mb-3 items-center bg-zinc-900 rounded-lg">
-                            <img :src="getAnimeEpisodeNumber(tmdbMeta?.episodes ?? animeMeta.episodes, e.number).image ?? anime.image"
-                                alt="" class="w-1/4 h-28 rounded-lg object-cover" />
-                            <div class="w-3/4">
-                                <h5 class="text-white text-sm">
+                            <AnimeEpImg
+                                :src="getAnimeEpisodeNumber(tmdbMeta?.episodes ?? animeMeta.episodes, e.number).image ?? anime.image"
+                                :ep="e.number" />
+                            <div class="w-3/5 md:w-3/4">
+                                <h5 class="text-white text-md">
                                     {{ getAnimeEpisodeNumber(tmdbMeta?.episodes ?? animeMeta.episodes, e.number).name ??
                                         getAnimeEpisodeNumber(tmdbMeta?.episodes ?? animeMeta.episodes, e.number).title ?? ''
                                     }}
                                 </h5>
-                                <h5 class="text-white text-sm">EP{{ e.number }}</h5>
+                                <span v-if="checkNull(tmdbMeta)" class="text-zinc-400 text-sm line-clamp-2">
+                                    {{ getAnimeEpisodeNumber(tmdbMeta.episodes, e.number).overview }}
+                                </span>
                             </div>
                         </NuxtLink>
                     </div>
@@ -317,7 +320,9 @@ export default {
         console.log('gogoAnime', gogoAnime);
         if (mapping) {
             this.tmdbMeta = await getTmdbSeasonEpisodes(mapping.id.split('/tv/')[1], 1);
-            console.log('tmdbMeta', this.tmdbMeta);
+            console.log('tmdbMeta::', this.tmdbMeta);
+            tmdb.setData(this.tmdbMeta);
+            console.log(`tmdbAnime:: ${tmdb.getData()}`);
         }
         if (checkNull(gogoAnime)) {
             this.anime = await this.getAnime(config, gogoAnime.id.split("/category/")[1]);
