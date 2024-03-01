@@ -39,7 +39,12 @@
                 </div>
                 <div class="grid grid-cols-2 md:grid-cols-3 gap-2" v-if="loading == false">
                     <NuxtLink class="text-white" v-for="m in manga" :key="m" :to="'/manga/' + m.id">
-                        <UCard :ui="{ background: 'bg-zinc-800' }">{{ m.title }}</UCard>
+                        <UCard :ui="{ background: 'bg-zinc-800' }">
+                            <img :src="m.image" alt="" class="w-full h-48 object-cover rounded-t-lg">
+                            <template #footer>
+                                {{ m.title.english ?? m.title.userPreferred }}
+                            </template>
+                        </UCard>
                     </NuxtLink>
                 </div>
                 <div class="absolute w-full flex items-center justify-center" v-else>
@@ -88,6 +93,7 @@ export default {
     },
     methods: {
         async searchManga() {
+            this.manga = []
             if (this.search == '') {
                 return
             } else {
@@ -97,7 +103,7 @@ export default {
                 this.nextLoading = true
                 const config = useRuntimeConfig();
                 const mangaApi = config['public'].mangaApi
-                await fetch(mangaApi + this.search + '?page=' + this.currentPage)
+                await fetch(`${mangaApi}search/${this.search}`)
                     .then(res => res.json())
                     .then(data => {
                         console.log(mangaApi)

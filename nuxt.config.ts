@@ -73,7 +73,7 @@ export default defineNuxtConfig({
       firebaseMessageId: process.env.NUXT_PUBLIC_FIREBASE_MESSAGE_ID,
       firebaseAppId: process.env.NUXT_PUBLIC_FIREBASE_APP_ID,
       firebaseMeasurementId: process.env.NUXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
-      mangaApi: process.env.NUXT_PUBLIC_API + "manga/mangadex/",
+      mangaApi: process.env.NUXT_PUBLIC_API + "meta/anilist-manga/",
       newsApi: process.env.NUXT_PUBLIC_API + "news/ann/",
       corsApi: process.env.NUXT_PUBLIC_CORS_API,
       anifyApi: process.env.NUXT_PUBLIC_ANIFY_API,

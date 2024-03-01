@@ -6,7 +6,7 @@
             </div>
             <div class="text-white mt-3">
                 <h1 class="font-bold text-xl">
-                    {{ manga.title }}
+                    {{ checkNull(manga.title.english) ? manga.title.english : manga.title.romaji }}
                 </h1>
                 <div class="md:w-full mx-auto py-3 my-3 px-5 text-white bg-slate-800 rounded-xl" v-if="manga.genres">
                     <div class="font-bold">Genres:</div>
@@ -57,12 +57,14 @@ export default {
         async getMangaInfo(id) {
             const config = useRuntimeConfig();
             const mangaApi = config['public'].mangaApi
-            await fetch(mangaApi + "info/" + id)
+            await fetch(`${mangaApi}info/${id}?provider=mangadex`)
                 .then(res => res.json())
                 .then(data => {
                     // console.log(data)
                     this.manga = data
                     this.loading = false
+                }).catch(err => {
+                    console.log(err)
                 })
         },
         randomColor() {

@@ -2,7 +2,7 @@
     <UContainer>
         <div class="relative">
             <div v-if="chapter">
-                <img v-for="c in chapter" loading="lazy" :key="c" :src="imageProxy(c.img)" alt="" class="w-full">
+                <img v-for="c in chapter" :key="c" :src="c.img" alt="" class="w-full">
             </div>
             <div v-else class="w-full min-h-screen flex justify-center mt-5">
                 <SpiningLoading></SpiningLoading>
@@ -45,7 +45,7 @@ export default {
     },
     methods: {
         async getMangaInfo() {
-            await fetch(this.mangaApi + "info/" + this.$route.params.manga)
+            await fetch(`${this.mangaApi}info/${this.$route.params.manga}?provider=mangadex`)
                 .then(res => res.json())
                 .then(data => {
                     // console.log("info", data, this.$route.params)
@@ -57,7 +57,7 @@ export default {
                 })
         },
         async getChapter() {
-            await fetch(this.mangaApi + 'read/' + this.$route.params.volume)
+            await fetch(`${this.mangaApi}read/${this.$route.params.volume}?provider=mangadex`)
                 .then(res => res.json())
                 .then(data => {
                     // console.log(data)
