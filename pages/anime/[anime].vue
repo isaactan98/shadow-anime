@@ -205,7 +205,7 @@
                         <div v-if="animeMeta != null" class="">
                             <h3 class="text-white text-xl mb-3">Relations</h3>
                             <div class="flex overflow-x-auto gap-3 w-full snap-x scroll-smooth">
-                                <AnimeCard v-for="meta in relations" :id="meta.externalId" :title="meta.title.english"
+                                <AnimeCard v-for="meta in relations" :id="meta.id" :title="meta.title.english"
                                     :image="meta.image" :episode="meta.episodes" :external-id="meta.id" :data="meta" />
                             </div>
                         </div>
