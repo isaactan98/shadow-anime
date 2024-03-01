@@ -156,7 +156,7 @@ export const getTodayStream = async () => {
                 lists[index].time = item.querySelector(".time")?.innerText;
                 lists[index].episode = item.querySelector(".btn-play")?.innerText;
             });
-            console.log("lists", lists);
+            // console.log("lists", lists);
         }).catch((err) => {
             console.log("Error: ", err);
         })

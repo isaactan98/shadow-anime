@@ -302,7 +302,7 @@ export default {
         };
     },
     async mounted() {
-        console.clear();
+        // console.clear();
         const config = useRuntimeConfig();
         await getAnimeInfo(this.$route.params.anime).then((d) => {
             this.animeMeta = d;
@@ -317,17 +317,17 @@ export default {
         if (gogoAnime == null && this.animeMeta.episodes.length > 0) {
             this.anime = await this.getAnime(config, getIdFromEpisode(this.animeMeta.episodes)[0]);
         }
-        console.log('gogoAnime', gogoAnime);
+        // console.log('gogoAnime', gogoAnime);
         if (mapping) {
             this.tmdbMeta = await getTmdbSeasonEpisodes(mapping.id.split('/tv/')[1], 1);
             console.log('tmdbMeta::', this.tmdbMeta);
             tmdb.setData(this.tmdbMeta);
-            console.log(`tmdbAnime:: ${tmdb.getData()}`);
+            // console.log(`tmdbAnime:: ${tmdb.getData()}`);
         }
         if (checkNull(gogoAnime)) {
             this.anime = await this.getAnime(config, gogoAnime.id.split("/category/")[1]);
         }
-        console.log("animeMeta", this.animeMeta);
+        // console.log("animeMeta", this.animeMeta);
         useHead({
             title: this.animeMeta.title.english ?? this.animeMeta.title.romaji,
             meta: [{ name: "description", content: "Anime" }],

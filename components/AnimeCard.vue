@@ -1,5 +1,5 @@
 <template>
-    <NuxtLink v-if="data.type == 'TV' || data.type == 'MOVIE' || data.type == 'OVA'"
+    <NuxtLink v-if="data.type == 'TV' || data.type == 'MOVIE' || data.type == 'OVA' || data.type == 'ONA'"
         :to="'/anime/' + id + '?externalId=' + externalId" class="relative snap-start mb-3">
         <div class="w-[150px] lg:w-[220px]">
             <img :src="image" loading="lazy" alt="" class="rounded-lg object-cover w-56 lg:w-96 h-64 lg:h-[24rem]">

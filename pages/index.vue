@@ -123,16 +123,16 @@ export default {
     async mounted() {
         anilistRecentReleases().then((data) => {
             this.recentRelease = data
-            console.log('recentRelease', this.recentRelease)
+            // console.log('recentRelease', this.recentRelease)
         })
         anilistAiringSchedule().then((data) => {
             this.topAiring = data
-            console.log('topAiring', this.topAiring)
+            // console.log('topAiring', this.topAiring)
         })
-        console.log('topAiring', this.topAiring)
+        // console.log('topAiring', this.topAiring)
         await anilistTrendingSlider().then((data) => {
             this.slides = data
-            console.log('slides', this.slides)
+            // console.log('slides', this.slides)
         });
         // this.getRecentRelease(config)
         // this.getTopAiring(config)
@@ -146,7 +146,7 @@ export default {
 
         await getTodayStream().then((data) => {
             this.steamingList = data
-            console.log('steamingList', this.steamingList)
+            // console.log('steamingList', this.steamingList)
         })
         await this.getRecentRelease()
     },
@@ -158,7 +158,7 @@ export default {
             await fetch(url)
                 .then(response => response.json())
                 .then(data => {
-                    console.log('data', data)
+                    // console.log('data', data)
                     if (data.results.length > 0) {
                         this.gogoAnimeRecentRelease = data.results.slice(0, 5)
                     } else {

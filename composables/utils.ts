@@ -27,7 +27,7 @@ export const getAnimeId = (anime: any) => {
 
 export const getAnimeEpisodeSource = (data: any) => {
     const episode = data.sources.find((episode: any) => episode.quality == "default");
-    console.log(episode);
+    // console.log(episode);
     if (episode) {
         return episode.url;
     }
