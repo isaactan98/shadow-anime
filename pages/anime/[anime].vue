@@ -238,7 +238,7 @@
                     <h3 class="text-white text-xl">Episodes</h3>
                     <div class="mt-3 max-h-[70vh] overflow-y-auto scroll-p-0">
                         <NuxtLink v-for="(e, i) in anime.episodes" :key="i"
-                            :to="'/anime/watch/' + e.id + '?id=' + $route.params.anime + '&externalId=' + animeMeta.id"
+                            :to="'/anime/watch/' + e.id + '?id=' + $route.params.anime + '&externalId=' + anime.id"
                             class="flex gap-3 w-full mb-3 items-center bg-zinc-900 rounded-lg">
                             <AnimeEpImg
                                 :src="getAnimeEpisodeNumber(tmdbMeta?.episodes ?? animeMeta.episodes, e.number).image ?? anime.image"

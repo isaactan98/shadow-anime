@@ -85,11 +85,15 @@ export default {
     async mounted() {
         const config = useRuntimeConfig();
         if (this.$route.query.id != null) this.animeMeta = await getAnimeInfo(this.$route.query.id.toString())
-        const gogoAnime = this.animeMeta.mappings.find((mapping: any) => mapping.providerId === 'gogoanime');
-        const mapping = this.animeMeta.mappings?.find((mapping: any) => mapping.providerId === 'tmdb');
+        let gogoAnime = this.animeMeta?.mappings?.find((mapping: any) => mapping.providerId === 'gogoanime');
+        const mapping = this.animeMeta?.mappings?.find((mapping: any) => mapping.providerId === 'tmdb');
         if (gogoAnime) {
             await this.getAnime(config, gogoAnime.id.split("/category/")[1])
             console.log(this.anime, gogoAnime.id.split("/category/")[1])
+        } else {
+            if (checkNull(this.$route.query.externalId)) {
+                await this.getAnime(config, this.$route.query.externalId!!.toString())
+            }
         }
         if (mapping) {
             if (!checkNull(tmdb.getData())) {
