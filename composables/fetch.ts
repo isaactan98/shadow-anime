@@ -163,3 +163,13 @@ export const getTodayStream = async () => {
 
     return lists;
 }
+
+export const searchGogoanime = async (query: string) => {
+    const config = useRuntimeConfig();
+    const response = await fetch(`${config['public'].apiUrl}search/${query}?page=1`);
+    if (!response.ok) {
+        throw new Error('Network response was not ok');
+    }
+    const data = await response.json();
+    return data;
+}

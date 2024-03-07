@@ -28,7 +28,8 @@
                 <div
                     class="w-full absolute z-[1] bg-gradient-to-b from-transparent to-zinc-950 top-0 h-[20rem] object-cover left-0 right-0">
                 </div>
-                <img :src="animeMeta.cover" alt="" class="w-full absolute top-0 h-[20rem] object-cover left-0 right-0" />
+                <img :src="animeMeta.cover" alt=""
+                    class="w-full absolute top-0 h-[20rem] object-cover left-0 right-0" />
             </div>
         </div>
         <div v-else class="w-full py-5 grid place-items-center relative h-[30rem]">
@@ -65,12 +66,12 @@
         <UContainer class="">
             <!-- Tabs -->
             <UTabs :items="tabs" :ui="{
-                list: {
-                    rounded: 'rounded-none',
-                    background: 'bg-zinc-900',
-                    tab: { inactive: 'text-zinc-500' },
-                },
-            }">
+        list: {
+            rounded: 'rounded-none',
+            background: 'bg-zinc-900',
+            tab: { inactive: 'text-zinc-500' },
+        },
+    }">
                 <template #item="{ item }">
                     <UCard v-if="item.key === 'info'" :ui="{ background: 'bg-zinc-900', ring: 'ring-0' }">
                         <div class="grid grid-cols-1 md:grid-cols-4 gap-5">
@@ -82,8 +83,8 @@
                                         <span v-if="animeMeta?.nextAiringEpisode" class="text-zinc-300 col-span-2">
                                             EP{{ animeMeta?.nextAiringEpisode.episode }} -
                                             {{
-                                                getCountDown(animeMeta?.nextAiringEpisode.airingTime)
-                                            }}
+        getCountDown(animeMeta?.nextAiringEpisode.airingTime)
+    }}
                                         </span>
                                         <span v-else class="text-zinc-300 col-span-2">-</span>
                                     </div>
@@ -92,24 +93,24 @@
                                             Season
                                         </p>
                                         <span class="text-zinc-300 col-span-2">{{
-                                            animeMeta?.season ?? "-"
-                                        }}</span>
+            animeMeta?.season ?? "-"
+        }}</span>
                                     </div>
                                     <div class="grid grid-cols-3 gap-2 items-center mt-3">
                                         <p class="text-zinc-300 col-span-1 font-semibold capitalize">
                                             Sub/Dub
                                         </p>
                                         <span class="text-zinc-300 col-span-2 capitalize">{{
-                                            animeMeta?.subOrDub ?? anime.subOrDub
-                                        }}</span>
+            animeMeta?.subOrDub ?? anime.subOrDub
+        }}</span>
                                     </div>
                                     <div class="grid grid-cols-3 gap-2 items-center mt-3">
                                         <p class="text-zinc-300 col-span-1 font-semibold capitalize">
                                             Type
                                         </p>
                                         <span class="text-zinc-300 col-span-2">{{
-                                            animeMeta?.type ?? "-"
-                                        }}</span>
+            animeMeta?.type ?? "-"
+        }}</span>
                                     </div>
                                     <div class="grid grid-cols-3 gap-2 items-center mt-3">
                                         <p class="text-zinc-300 col-span-1 font-semibold capitalize">
@@ -126,20 +127,20 @@
                                         </p>
                                         <span v-if="animeMeta?.startDate" class="text-zinc-300 col-span-2">
                                             {{
-                                                getDate(
-                                                    animeMeta?.startDate.year,
-                                                    animeMeta?.startDate.month,
-                                                    animeMeta?.startDate.day
-                                                )
-                                            }}
+        getDate(
+            animeMeta?.startDate.year,
+            animeMeta?.startDate.month,
+            animeMeta?.startDate.day
+        )
+    }}
                                             to
                                             {{
-                                                getDate(
-                                                    animeMeta?.endDate.year,
-                                                    animeMeta?.endDate.month,
-                                                    animeMeta?.endDate.day
-                                                )
-                                            }}
+            getDate(
+                animeMeta?.endDate.year,
+                animeMeta?.endDate.month,
+                animeMeta?.endDate.day
+            )
+        }}
                                         </span>
                                         <span v-else class="text-zinc-300 col-span-2">-</span>
                                     </div>
@@ -149,8 +150,8 @@
                                         </p>
                                         <span class="text-zinc-300 col-span-2">
                                             {{
-                                                animeMeta?.genres.join(", ") ?? anime.genres.join(", ")
-                                            }}
+            animeMeta?.genres.join(", ") ?? anime.genres.join(", ")
+        }}
                                         </span>
                                     </div>
                                 </div>
@@ -186,10 +187,10 @@
                             <h3 class="text-white text-xl">Characters</h3>
                             <div class="mt-3 grid grid-cols-3 md:grid-cols-5 gap-3">
                                 <UCard v-for="(c, i) in animeMeta.characters" class="text-center" :ui="{
-                                    background: ' bg-transparent',
-                                    ring: 'ring-0',
-                                    body: { padding: 'sm:p-1' },
-                                }">
+        background: ' bg-transparent',
+        ring: 'ring-0',
+        body: { padding: 'sm:p-1' },
+    }">
                                     <img :src="c.image" alt="" class="w-full md:h-[200px] rounded-lg object-cover" />
                                     <div class="mt-3">
                                         <h5 class="text-white mb-2 text-sm">
@@ -215,8 +216,10 @@
                             <h3 class="text-white text-xl mb-3">Artwork</h3>
                             <UCarousel v-if="animeMeta.artwork?.length > 0" v-slot="{ item, index }"
                                 :items="animeMeta.artwork.slice(0, 100)" arrows>
-                                <UButton class="relative mb-3" @click="openModal(item.img)" color="purple" variant="ghost">
-                                    <img :src="item.img" loading="lazy" alt="" class="rounded-lg object-cover w-56 h-64" />
+                                <UButton class="relative mb-3" @click="openModal(item.img)" color="purple"
+                                    variant="ghost">
+                                    <img :src="item.img" loading="lazy" alt=""
+                                        class="rounded-lg object-cover w-56 h-64" />
                                 </UButton>
                             </UCarousel>
                             <div v-else>
@@ -246,7 +249,8 @@
                             <div class="w-3/5 md:w-3/4">
                                 <h5 class="text-white text-md">
                                     {{ getAnimeEpisodeNumber(tmdbMeta?.episodes ?? animeMeta.episodes, e.number).name ??
-                                        getAnimeEpisodeNumber(tmdbMeta?.episodes ?? animeMeta.episodes, e.number).title ?? ''
+                                    getAnimeEpisodeNumber(tmdbMeta?.episodes ?? animeMeta.episodes, e.number).title ??
+                                    ''
                                     }}
                                 </h5>
                                 <span v-if="checkNull(tmdbMeta)" class="text-zinc-400 text-sm line-clamp-2">
@@ -267,8 +271,8 @@
                 <h3 class="text-white text-xl mb-3">Recommendations</h3>
                 <div class="flex overflow-x-auto gap-5 w-full snap-x scroll-smooth">
                     <AnimeCard v-for="anime in recommendations" :id="anime.id"
-                        :title="anime.title.english ?? anime.title.romaji" :image="anime.image" :episode="anime.episodes"
-                        :external-id="null" :data="anime" />
+                        :title="anime.title.english ?? anime.title.romaji" :image="anime.image"
+                        :episode="anime.episodes" :external-id="null" :data="anime" />
                 </div>
             </div>
         </UContainer>
@@ -314,8 +318,16 @@ export default {
         this.relations = this.animeMeta.relations;
         const mapping = this.animeMeta.mappings?.find((mapping) => mapping.providerId === 'tmdb');
         const gogoAnime = this.animeMeta.mappings?.find((mapping) => mapping.providerId === 'gogoanime');
-        if (gogoAnime == null && this.animeMeta.episodes.length > 0) {
-            this.anime = await this.getAnime(config, getIdFromEpisode(this.animeMeta.episodes)[0]);
+        if (gogoAnime == null) {
+            // this.anime = await this.getAnime(config, getIdFromEpisode(this.animeMeta.episodes)[0]);
+            searchGogoanime(this.animeMeta.title.romaji).then((d) => {
+                if (d.results.length > 0) {
+                    this.getAnime(config, d.results[0].id).then((d) => {
+                        console.log(d);
+                        this.anime = d;
+                    });
+                }
+            });
         }
         // console.log('gogoAnime', gogoAnime);
         if (mapping) {

@@ -74,7 +74,8 @@
                 </Placeholder>
             </UCard>
         </USlideover>
-        <UModal v-model="openSearch" :ui="{ background: 'bg-zinc-800', overlay: { background: 'bg-zinc-800/80' } }">
+        <UModal v-model="openSearch"
+            :ui="{ container: 'items-center', background: 'bg-zinc-800', overlay: { background: 'bg-zinc-800/80' } }">
             <div class="p-4">
                 <form class="flex items-center gap-3" @submit.prevent="searchAnime()">
                     <input type="text" name="" id="" v-model="searchAnimeName" placeholder="Search..."
