@@ -318,14 +318,12 @@ export default {
         this.relations = this.animeMeta.relations;
         const mapping = this.animeMeta.mappings?.find((mapping) => mapping.providerId === 'tmdb');
         const gogoAnime = this.animeMeta.mappings?.find((mapping) => mapping.providerId === 'gogoanime');
-        if (gogoAnime == null) {
-            // this.anime = await this.getAnime(config, getIdFromEpisode(this.animeMeta.episodes)[0]);
-            searchGogoanime(this.animeMeta.title.romaji).then((d) => {
+        if (gogoAnime == null && this.animeMeta.episodes.length > 0) {
+            this.anime = await this.getAnime(config, getIdFromEpisode(this.animeMeta.episodes)[0]);
+        } else if (gogoAnime == null) {
+            await searchGogoanime(this.animeMeta.title.romaji).then((d) => {
                 if (d.results.length > 0) {
-                    this.getAnime(config, d.results[0].id).then((d) => {
-                        console.log(d);
-                        this.anime = d;
-                    });
+                    this.anime = this.getAnime(config, d.results[0].id);
                 }
             });
         }
