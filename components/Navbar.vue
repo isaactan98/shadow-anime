@@ -2,6 +2,7 @@
     <div class="sticky w-full top-0 z-50">
         <nav class="backdrop-blur-sm bg-black/20 w-full mx-auto">
             <UContainer>
+                <!-- mobile -->
                 <div
                     class="relative w-full flex justify-between items-center gap-1.5 px-2 py-3.5 rounded-md font-medium text-sm md:hidden">
                     <div class="flex items-center">
@@ -14,6 +15,13 @@
                         </UButton>
                     </div>
                     <div class="flex items-center">
+                        <UButton color="gray" variant="ghost" @click="openSearch = true">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                stroke="currentColor" class="w-6 h-6 text-white">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                            </svg>
+                        </UButton>
                         <!-- <UDropdown :items="items" :popper="{ offsetDistance: 15 }"
                         :ui="{ ring: 'ring-0', background: 'bg-zinc-800', item: { inactive: 'text-white', active: '', hover: 'bg-zinc-900' } }">
                         <UAvatar
@@ -21,12 +29,13 @@
                     </UDropdown> -->
                     </div>
                 </div>
+                <!-- PC -->
                 <div class="hidden md:flex justify-between">
                     <UHorizontalNavigation class="hidden md:flex" :links="navLinks"
                         :ui="{ active: '!text-purple-500 after:!bg-purple-500', inactive: 'text-zinc-200 hover:text-purple-500', icon: { inactive: 'text-zinc-200 group-hover:text-purple-500', active: '!text-purple-500' }, before: 'hover:before:bg-transparent' }">
                     </UHorizontalNavigation>
                     <div class="flex items-center gap-3">
-                        <UButton color="gray" variant="ghost">
+                        <UButton color="gray" variant="ghost" @click="openSearch = true">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                                 stroke="currentColor" class="w-6 h-6 text-white">
                                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -59,11 +68,21 @@
                     </div>
                 </template>
                 <Placeholder class="h-full">
-                    <UVerticalNavigation :links="mobileLinks" class="mt-3" :ui="{ active: 'text-purple-500' }"
+                    <UVerticalNavigation :links="mobileLinks" class="mt-3"
+                        :ui="{ padding: '!py-2.5', active: 'text-purple-500', size: 'text-base' }"
                         @click="isOpen = false" />
                 </Placeholder>
             </UCard>
         </USlideover>
+        <UModal v-model="openSearch" :ui="{ background: 'bg-zinc-800', overlay: { background: 'bg-zinc-800/80' } }">
+            <div class="p-4">
+                <form class="flex items-center gap-3" @submit.prevent="searchAnime()">
+                    <input type="text" name="" id="" v-model="searchAnimeName" placeholder="Search..."
+                        class="p-2 bg-transparent w-full text-zinc-200">
+                    <button type="submit" class="hidden"></button>
+                </form>
+            </div>
+        </UModal>
     </div>
 </template>
 
@@ -72,6 +91,8 @@ export default {
     data() {
         return {
             isOpen: false,
+            openSearch: false,
+            searchAnimeName: '',
             navLinks: [[{
                 label: 'Home',
                 icon: 'i-heroicons-home',
@@ -149,5 +170,13 @@ export default {
     mounted() {
 
     },
+    methods: {
+        searchAnime() {
+            console.log('search')
+            this.openSearch = false
+            window.location.href = `/search?q=${this.searchAnimeName}`
+            // this.$router.push(`/search?q=${this.searchAnimeName}`)
+        }
+    }
 }
 </script>
