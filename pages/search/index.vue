@@ -1,7 +1,7 @@
 <template>
     <div class="min-h-screen">
         <UContainer>
-            <div v-if="animeList.length > 0">
+            <div v-if="!finishSearch && animeList.length > 0">
                 <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
                     <NuxtLink v-for="anime in animeList" :to="`/anime/${anime.id}`" :key="anime.id"
                         class="rounded-xl shadow-lg">
@@ -19,6 +19,9 @@
                     </NuxtLink>
                 </div>
             </div>
+            <div v-else-if="!finishSearch && animeList.length == 0" class="w-full flex justify-center mt-5">
+                <h1 class="text-2xl text-white">No Anime Found</h1>
+            </div>
             <div v-else class="w-full flex justify-center mt-5">
                 <SpiningLoading></SpiningLoading>
             </div>
@@ -31,7 +34,8 @@ export default {
     data() {
         return {
             searchAnimeName: '',
-            animeList: [] as any[]
+            animeList: [] as any[],
+            finishSearch: false
         }
     },
     async mounted() {
@@ -39,6 +43,7 @@ export default {
     },
     methods: {
         searchAnime() {
+            this.finishSearch = true
             const config = useRuntimeConfig();
             const url = `${config['public'].metaApi}search/${this.$route.query.q}`
             fetch(url)
@@ -46,6 +51,8 @@ export default {
                 .then(data => {
                     console.log(data)
                     this.animeList = data.results
+                }).finally(() => {
+                    this.finishSearch = false
                 })
         }
     }

@@ -103,6 +103,7 @@ export default {
                 this.nextLoading = true
                 const config = useRuntimeConfig();
                 const mangaApi = config['public'].mangaApi
+                console.log(mangaApi)
                 await fetch(`${mangaApi}search/${this.search}`)
                     .then(res => res.json())
                     .then(data => {
