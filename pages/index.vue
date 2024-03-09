@@ -1,7 +1,7 @@
 <template>
     <div class="w-full mx-auto">
         <UCarousel v-if="slides.length > 0" v-slot="{ item, index }" :items="slides" arrows indicators>
-            <div class="w-screen object-cover flex justify-center flex-col items-center relative h-[55vh] md:h-[80vh]">
+            <div class="w-screen object-cover flex justify-center flex-col items-center relative h-[45vh] md:h-[80vh]">
                 <div
                     class="absolute top-0 h-full w-full md:h-[80vh] overflow-hidden bg-gradient-to-bl from-transparent to-zinc-950 ">
                 </div>
@@ -59,7 +59,7 @@
                 </div>
             </div>
         </UCarousel>
-        <USkeleton v-else class="h-[55vh] md:h-[100vh]" :ui="{ rounded: 'rounded-none', background: 'bg-zinc-800' }" />
+        <USkeleton v-else class="h-[45vh] md:h-[80vh]" :ui="{ rounded: 'rounded-none', background: 'bg-zinc-800' }" />
         <UContainer v-if="recentRelease.length > 0" class="relative top-0 mt-10">
             <h1 class="text-2xl font-semibold text-white mb-5">Recent Release</h1>
             <div class="flex overflow-x-auto gap-5 w-full snap-x scroll-smooth">
