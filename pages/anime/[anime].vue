@@ -277,7 +277,7 @@
             </div>
         </UContainer>
     </div>
-    <USkeleton v-else class="h-screen" :ui="{ rounded: 'rounded-xl', background: 'bg-zinc-700' }" :loading="true" />
+    <USkeleton v-else class="h-screen" :ui="{ rounded: 'rounded-none', background: 'bg-zinc-700' }" :loading="true" />
 </template>
 
 <script>
@@ -318,19 +318,17 @@ export default {
         this.relations = this.animeMeta.relations;
         const mapping = this.animeMeta.mappings?.find((mapping) => mapping.providerId === 'tmdb');
         const gogoAnime = this.animeMeta.mappings?.find((mapping) => mapping.providerId === 'gogoanime');
-        if (gogoAnime == null && this.animeMeta.episodes.length > 0) {
-            this.anime = await this.getAnime(config, getIdFromEpisode(this.animeMeta.episodes)[0]);
-        } else if (gogoAnime == null) {
-            await searchGogoanime(this.animeMeta.title.romaji).then((d) => {
+        if (gogoAnime == null) {
+            await searchGogoanime(this.animeMeta.title.romaji).then(async (d) => {
                 if (d.results.length > 0) {
-                    this.anime = this.getAnime(config, d.results[0].id);
+                    this.anime = await this.getAnime(config, d.results[0].id);
                 }
             });
         }
         // console.log('gogoAnime', gogoAnime);
         if (mapping) {
             this.tmdbMeta = await getTmdbSeasonEpisodes(mapping.id.split('/tv/')[1], 1);
-            console.log('tmdbMeta::', this.tmdbMeta);
+            // console.log('tmdbMeta::', this.tmdbMeta);
             tmdb.setData(this.tmdbMeta);
             // console.log(`tmdbAnime:: ${tmdb.getData()}`);
         }
