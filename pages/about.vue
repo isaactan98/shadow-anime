@@ -1,5 +1,5 @@
 <template>
-    <div class="min-h-screen mx-auto px-4 mt-5">
+    <div class="min-h-screen mx-auto px-4 pt-5">
         <UContainer>
             <div class="flex items-center w-full relative text-zinc-400">
                 <h1 class="pr-3 text-white">

@@ -4,7 +4,7 @@
     <div class="relative min-h-screen bg-zinc-950">
       <Navbar />
       <NuxtLayout>
-        <NuxtPage />
+        <NuxtPage class="" />
       </NuxtLayout>
       <footer class="p-5 bg-zinc-950">
         <!-- This is an example component -->

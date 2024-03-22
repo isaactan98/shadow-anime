@@ -75,10 +75,10 @@
             </UCard>
         </USlideover>
         <UModal v-model="openSearch"
-            :ui="{ container: 'items-center', background: 'bg-zinc-800', overlay: { background: 'bg-zinc-800/80' } }">
-            <div class="p-4">
+            :ui="{ container: 'items-center', background: 'bg-zinc-900', overlay: { background: 'bg-black/80' } }">
+            <div class="p-5">
                 <form class="flex items-center gap-3" @submit.prevent="searchAnime()">
-                    <input type="text" name="" id="" v-model="searchAnimeName" placeholder="Search..."
+                    <input type="text" name="" id="" v-model="searchAnimeName" placeholder="Search Anime..."
                         class="p-2 bg-transparent w-full text-zinc-200">
                     <button type="submit" class="hidden"></button>
                 </form>

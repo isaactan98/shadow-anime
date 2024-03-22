@@ -1,9 +1,9 @@
 <template>
     <div class="w-full mx-auto">
-        <UCarousel v-if="slides.length > 0" v-slot="{ item, index }" :items="slides" arrows indicators>
-            <div class="w-screen object-cover flex justify-center flex-col items-center relative h-[45vh] md:h-[80vh]">
+        <UCarousel v-if="slides.length > 0" v-slot="{ item, index }" :items="slides" :arrows="!isMobile()" indicators>
+            <div class="w-screen object-cover flex justify-center flex-col items-center relative h-[45vh] md:h-[75vh]">
                 <div
-                    class="absolute top-0 h-full w-full md:h-[80vh] overflow-hidden bg-gradient-to-bl from-transparent to-zinc-950 ">
+                    class="absolute top-0 h-full w-full md:h-[75vh] overflow-hidden bg-gradient-to-bl from-transparent to-zinc-950 ">
                 </div>
                 <img :src="item.cover" width="200" height="200" class="h-full w-full object-cover overflow-hidden">
                 <div class="absolute bottom-16 md:bottom-10 left-10 w-3/4 md:w-full drop-shadow-sm text-zinc-300">
@@ -12,8 +12,8 @@
                             {{ item.title.english ?? item.title.romaji }}</h1>
                         <div class="flex gap-3 items-center text-sm mb-3">
                             <span class="flex items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                    stroke="currentColor" class="w-5 h-5">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                    stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                         d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -37,8 +37,8 @@
                         <p class="w-1/2 text-sm md:text-base line-clamp-3" v-html="item.description"></p>
                         <div class="flex gap-3 items-center text-sm my-3">
                             <span class="flex items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                    stroke="currentColor" class="w-5 h-5">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                    stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                         d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -59,12 +59,13 @@
                 </div>
             </div>
         </UCarousel>
-        <USkeleton v-else class="h-[45vh] md:h-[80vh]" :ui="{ rounded: 'rounded-none', background: 'bg-zinc-800' }" />
+        <USkeleton v-else class="h-[45vh] md:h-[75vh]" :ui="{ rounded: 'rounded-none', background: 'bg-zinc-800' }" />
         <UContainer v-if="recentRelease.length > 0" class="relative top-0 mt-10">
             <h1 class="text-2xl font-semibold text-white mb-5">Recent Release</h1>
             <div class="flex overflow-x-auto gap-5 w-full snap-x scroll-smooth">
                 <AnimeCard v-for="anime in recentRelease" :id="anime.id" :image="anime.image" :data="anime"
-                    :title="anime.title.english ?? anime.title.romaji" :episode="anime.episodeNumber" :external-id="null" />
+                    :title="anime.title.english ?? anime.title.romaji" :episode="anime.episodeNumber"
+                    :external-id="null" />
             </div>
         </UContainer>
         <UContainer v-if="topAiring.length > 0" class="relative top-0 mt-10">
@@ -169,7 +170,10 @@ export default {
                     alert('Something went wrong, please try again later')
                     console.log(err)
                 });
-        }
+        },
+        isMobile() {
+            return window.innerWidth < 768
+        },
     }
 }
 </script>
