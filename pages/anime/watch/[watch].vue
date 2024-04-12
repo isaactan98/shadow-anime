@@ -9,12 +9,11 @@
                         <USkeleton v-else :ui="{ background: 'bg-zinc-800' }" style="aspect-ratio: 16/9;" :loading="true" />
                     </div>
                     <div class="text-zinc-300 text-lg gap-3">
-                        <NuxtLink :to="`/anime/${$route.query.id}?externalId=${$route.query.externalId}`">
-                            <h3 class="text-purple-500 font-bold">
-                                {{ checkNull(animeMeta.title?.english) ? animeMeta.title?.english : animeMeta.title?.romaji
-                                }}
-                            </h3>
-                        </NuxtLink>
+                        <p class="text-purple-500 font-bold w-full text-xl">
+                            <NuxtLink :to="`/anime/${$route.query.id}?externalId=${$route.query.externalId}`">
+                                {{ checkNull(animeMeta.title?.english) ? animeMeta.title?.english : animeMeta.title?.romaji }}
+                            </NuxtLink>
+                        </p>
                         <h3 class="font-semibold my-3">
                             EPISODE {{ getAnimeEpisode().number }}
                             <span v-if="animeMeta">
