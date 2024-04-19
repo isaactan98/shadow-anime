@@ -88,5 +88,37 @@ export default defineNuxtConfig({
   },
   colorMode: {
     preference: 'light'
+  },
+  pwa: {
+    manifest: {
+      display: "standalone",
+      name: "Shadow Anime",
+      short_name: "Shadow Anime",
+      description: "Shadow Anime - Home of Anime",
+      lang: "en",
+      theme_color: "#0d0d12",
+      background_color: "#0d0d12",
+      start_url: "/",
+      icons: [
+        {
+          src: "/delta_icon.png",
+          sizes: "400x400",
+          type: "image/png",
+          purpose: "any"
+        },
+        {
+          src: "/delta_icon520.png",
+          sizes: "520x520",
+          type: "image/png",
+          purpose: "any"
+        },
+        {
+          src: "/delta_icon512.png",
+          sizes: "512x512",
+          type: "image/png",
+          purpose: "any"
+        }
+      ],
+    }
   }
 })
