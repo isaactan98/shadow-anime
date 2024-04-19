@@ -6,7 +6,7 @@
   "theme_color": "#0d0d12",
   "background_color": "#0d0d12",
   "start_url": "/",
-  "display": "standalone",
+  "display": "minimal-ui",
   "icons": [
     {
       "src": "/delta_icon.png",
