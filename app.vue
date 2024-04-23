@@ -124,4 +124,8 @@ export default {
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
+
+html {
+  background-color: #0d0d12;
+}
 </style>
