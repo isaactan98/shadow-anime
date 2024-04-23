@@ -1,5 +1,5 @@
 <template>
-  <div class="relative">
+  <div class="relative bg-zinc-950">
     <NuxtLoadingIndicator color="#c084fc" />
     <div class="relative min-h-screen bg-zinc-950">
       <Navbar />
