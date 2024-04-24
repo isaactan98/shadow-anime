@@ -4,7 +4,7 @@
             <UContainer>
                 <!-- mobile -->
                 <div
-                    class="relative w-full flex justify-between items-center gap-1.5 px-2 py-3.5 rounded-md font-medium text-sm md:hidden">
+                    class="relative w-full flex justify-between items-center gap-1.5 p-2 rounded-md font-medium text-sm md:hidden">
                     <div class="flex items-center">
                         <UButton label="Open" :padded="false" color="black" variant="ghost" @click="isOpen = true">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
