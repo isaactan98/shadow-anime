@@ -175,6 +175,7 @@ export default {
         searchAnime() {
             console.log('search')
             this.openSearch = false
+            this.searchAnimeName = this.searchAnimeName.replace(/\s/g, '-')
             window.location.href = `/search?q=${this.searchAnimeName}`
             // this.$router.push(`/search?q=${this.searchAnimeName}`)
         }

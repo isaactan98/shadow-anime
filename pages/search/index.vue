@@ -1,6 +1,9 @@
 <template>
     <div class="min-h-screen">
         <UContainer>
+            <h1 class="text-2xl text-white my-5 md:my-10">Search Result for <span class="text-purple-500 font-bold">
+                    {{ searchAnimeName }}</span>
+            </h1>
             <div v-if="!finishSearch && animeList.length > 0">
                 <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
                     <NuxtLink v-for="anime in animeList" :to="`/anime/${anime.id}`" :key="anime.id"
@@ -39,6 +42,7 @@ export default {
         }
     },
     async mounted() {
+        this.searchAnimeName = this.$route.query.q?.toString().replace(/-/g, ' ') || ''
         this.searchAnime()
     },
     methods: {
