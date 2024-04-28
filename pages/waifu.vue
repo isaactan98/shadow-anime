@@ -5,9 +5,9 @@
             <UContainer>
                 <div class="flex flex-col items-center">
                     <div class="mt-5 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-                        <UButton v-for="(w, i) in waifu.files" :key="i" class="relative" @click="openModal(w)"
+                        <UButton v-for="(w, i) in waifu" :key="i" class="relative" @click="openModal(w.url)"
                             color="purple" variant="ghost">
-                            <img :src="w" loading="lazy" alt="" class="rounded-lg object-cover w-56 h-64">
+                            <img :src="w.url" loading="lazy" alt="" class="rounded-lg object-cover w-56 h-64">
                         </UButton>
                     </div>
                 </div>
@@ -35,22 +35,49 @@ export default {
         }
     },
     async mounted() {
-        const params = this.$route.query.type ?? 'sfw'
-        await fetch(`https://api.waifu.pics/many/${params}/waifu`, {
-            method: 'POST',
+        const apiUrl = 'https://api.waifu.im/search';
+
+        let params = {
+            included_tags: ['waifu', 'oppai'],
+            limit: 20,
+        } as any;
+
+        if (this.$route.query.type != null) {
+            params = {
+                included_tags: ['waifu', 'oppai'],
+                limit: 20,
+                is_nsfw: true,
+            }
+        } else {
+            params = {
+                ...params,
+            }
+        }
+
+        const queryParams = new URLSearchParams();
+
+        for (const key in params) {
+            if (Array.isArray(params[key])) {
+                params[key].forEach(value => {
+                    queryParams.append(key, value);
+                });
+            } else {
+                queryParams.set(key, params[key]);
+            }
+        }
+        const requestUrl = `${apiUrl}?${queryParams.toString()}`;
+
+        await fetch(`${requestUrl}`, {
+            method: 'GET',
             headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                files: [
-                    "https://i.waifu.pics/qUY7BBo.jpg"
-                ]
-            }),
+                'Content-Type': 'application/json',
+                // 'Authorization': "NTA0Mjc1NDE1Nzg3ODk2ODU5.MTcwNTY2NTU0MQ--.44b0bd21a",
+            }
         })
             .then(response => response.json())
             .then(data => {
                 // console.log('data', data)
-                this.waifu = data
+                this.waifu = data.images
             })
             .catch(err => {
                 console.log(err)
