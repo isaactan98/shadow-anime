@@ -11,6 +11,9 @@
                         </UButton>
                     </div>
                 </div>
+                <div class="mt-5">
+                    <UToggle color="violet" @click="switchToggle()" v-model="selected" />
+                </div>
             </UContainer>
             <UModal v-model="isOpen" :ui="{ overlay: { background: 'bg-zinc-800/80' } }">
                 <div class="p-1">
@@ -31,63 +34,86 @@ export default {
             waifu: null as any,
             loading: false,
             isOpen: false,
-            showImg: null as any
+            showImg: null as any,
+            selected: false,
         }
     },
     async mounted() {
-        const apiUrl = 'https://api.waifu.im/search';
-
-        let params = {
-            included_tags: ['waifu', 'oppai'],
-            limit: 20,
-        } as any;
-
-        if (this.$route.query.type != null) {
-            params = {
-                included_tags: ['waifu', 'oppai'],
-                limit: 20,
-                is_nsfw: true,
-            }
-        } else {
-            params = {
-                ...params,
-            }
-        }
-
-        const queryParams = new URLSearchParams();
-
-        for (const key in params) {
-            if (Array.isArray(params[key])) {
-                params[key].forEach(value => {
-                    queryParams.append(key, value);
-                });
-            } else {
-                queryParams.set(key, params[key]);
-            }
-        }
-        const requestUrl = `${apiUrl}?${queryParams.toString()}`;
-
-        await fetch(`${requestUrl}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                // 'Authorization': "NTA0Mjc1NDE1Nzg3ODk2ODU5.MTcwNTY2NTU0MQ--.44b0bd21a",
-            }
-        })
-            .then(response => response.json())
-            .then(data => {
-                // console.log('data', data)
-                this.waifu = data.images
-            })
-            .catch(err => {
-                console.log(err)
-            });
+        await this.fetchWaifu()
     },
     methods: {
         openModal(url: string) {
             // console.log(url)
             this.showImg = url
             this.isOpen = true
+        },
+        switchToggle() {
+            this.fetchWaifu()
+        },
+        async fetchWaifu() {
+
+            let setItem = localStorage.getItem('age')
+
+            this.waifu = []
+            const apiUrl = 'https://api.waifu.im/search';
+
+            let params = {
+                included_tags: ['waifu', 'oppai'],
+                limit: 20,
+            } as any;
+
+            if (this.selected) {
+                let year = setItem == null ? prompt('Please enter the year of your birth') : setItem
+
+                localStorage.setItem('age', year ?? new Date().getFullYear().toString())
+
+                if (year!! >= '2003') {
+                    alert('You are not allowed to access this page')
+                    this.selected = false
+                    return params = {
+                        ...params,
+                    }
+                }
+
+                const decodeString = atob("aGVudGFp")
+                params = {
+                    included_tags: [decodeString],
+                    limit: 20,
+                    is_nsfw: true,
+                }
+            } else {
+                params = {
+                    ...params,
+                }
+            }
+
+            const queryParams = new URLSearchParams();
+
+            for (const key in params) {
+                if (Array.isArray(params[key])) {
+                    params[key].forEach(value => {
+                        queryParams.append(key, value);
+                    });
+                } else {
+                    queryParams.set(key, params[key]);
+                }
+            }
+            const requestUrl = `${apiUrl}?${queryParams.toString()}`;
+
+            await fetch(`${requestUrl}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    // console.log('data', data)
+                    this.waifu = data.images
+                })
+                .catch(err => {
+                    console.log(err)
+                });
         }
     }
 }
