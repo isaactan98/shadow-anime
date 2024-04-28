@@ -319,7 +319,8 @@ export default {
         const mapping = this.animeMeta.mappings?.find((mapping) => mapping.providerId === 'tmdb');
         const gogoAnime = this.animeMeta.mappings?.find((mapping) => mapping.providerId === 'gogoanime');
         if (gogoAnime == null) {
-            await searchGogoanime(this.animeMeta.title.romaji).then(async (d) => {
+            const synonyms = this.animeMeta.synonyms.length > 0 ? this.animeMeta.synonyms[0] : this.animeMeta.title.english ?? this.animeMeta.title.romaji;    
+            await searchGogoanime(synonyms).then(async (d) => {
                 if (d.results.length > 0) {
                     this.anime = await this.getAnime(config, d.results[0].id);
                 }
