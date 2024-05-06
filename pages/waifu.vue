@@ -1,6 +1,8 @@
 <template>
     <div class="min-h-screen">
-        <h1 class="text-center mt-3 text-white text-4xl">Waifu</h1>
+        <h1 class="text-center mt-3 text-white text-4xl">
+            <button @click="switchToggle()" :class="{ 'text-red-400': selected }">Waifu</button>
+        </h1>
         <div v-if="waifu">
             <UContainer>
                 <div class="flex flex-col items-center">
@@ -10,9 +12,6 @@
                             <img :src="w.url" loading="lazy" alt="" class="rounded-lg object-cover w-56 h-64">
                         </UButton>
                     </div>
-                </div>
-                <div class="mt-5">
-                    <UToggle color="violet" @click="switchToggle()" v-model="selected" />
                 </div>
             </UContainer>
             <UModal v-model="isOpen" :ui="{ overlay: { background: 'bg-zinc-800/80' } }">
@@ -48,6 +47,7 @@ export default {
             this.isOpen = true
         },
         switchToggle() {
+            this.selected = !this.selected
             this.fetchWaifu()
         },
         async fetchWaifu() {
