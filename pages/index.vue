@@ -145,11 +145,11 @@ export default {
 
         })
 
-        await getTodayStream().then((data) => {
+        getTodayStream().then((data) => {
             this.steamingList = data
             // console.log('steamingList', this.steamingList)
         })
-        await this.getRecentRelease()
+        this.getRecentRelease()
     },
     methods: {
         async getRecentRelease() {
