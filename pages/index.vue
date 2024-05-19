@@ -60,19 +60,25 @@
             </div>
         </UCarousel>
         <USkeleton v-else class="h-[45vh] md:h-[75vh]" :ui="{ rounded: 'rounded-none', background: 'bg-zinc-800' }" />
-        <UContainer v-if="recentRelease.length > 0" class="relative top-0 mt-10">
+        <UContainer class="relative top-0 mt-10">
             <h1 class="text-2xl font-semibold text-white mb-5">Recent Release</h1>
-            <div class="flex overflow-x-auto gap-5 w-full snap-x scroll-smooth">
+            <div class="flex overflow-x-auto gap-5 w-full snap-x scroll-smooth" v-if="recentRelease.length > 0">
                 <AnimeCard v-for="anime in recentRelease" :id="anime.id" :image="anime.image" :data="anime"
                     :title="anime.title.english ?? anime.title.romaji" :episode="anime.episodeNumber"
                     :external-id="null" />
             </div>
+            <div v-else class="flex overflow-x-auto gap-5 w-full snap-x scroll-smooth">
+                <BlackCard v-for="a in 10" />
+            </div>
         </UContainer>
-        <UContainer v-if="topAiring.length > 0" class="relative top-0 mt-10">
+        <UContainer class="relative top-0 mt-10">
             <h1 class="text-2xl font-semibold text-white mb-5">Top Airing</h1>
-            <div class="flex overflow-x-auto gap-5 w-full snap-x scroll-smooth">
+            <div class="flex overflow-x-auto gap-5 w-full snap-x scroll-smooth" v-if="topAiring.length > 0">
                 <AnimeCard v-for="anime in topAiring" :id="anime.id" :image="anime.image" :data="anime"
                     :title="anime.title.english ?? anime.title.romaji" :episode="anime.episode" :external-id="null" />
+            </div>
+            <div v-else class="flex overflow-x-auto gap-5 w-full snap-x scroll-smooth">
+                <BlackCard v-for="a in 10" />
             </div>
         </UContainer>
         <UContainer class="relative top-0 mt-10">
