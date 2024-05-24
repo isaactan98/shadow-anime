@@ -173,6 +173,13 @@ export default {
     },
     methods: {
         searchAnime() {
+            console.log(this.searchAnimeName)
+
+            if (this.searchAnimeName == "routoon") {
+                window.location.href = "https://routoon.vercel.app";
+                return
+            }
+
             console.log('search')
             this.openSearch = false
             this.searchAnimeName = this.searchAnimeName.replace(/\s/g, '-')
