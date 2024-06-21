@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@nuxt/ui": "^2.15.2",
-    "firebase": "^10.8.0",
+    "firebase": "^10.12.2",
     "hls.js": "^1.5.4",
     "nuxt": "^3.11.2",
     "vidstack": "^0.6.14",
