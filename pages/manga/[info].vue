@@ -27,10 +27,14 @@
                 <h1 class=" font-bold">Chapters:</h1>
                 <div class="grid grid-cols-3 gap-2 mt-2">
                     <!-- <NuxtLink v-for="chp in manga.chapters" :key="chp" :to="'/manga/' + manga.id + '/' + chp.id" -->
-                    <NuxtLink v-for="chp in manga.chapters" :key="chp" :to="'/manga/' + $route.params.info + '/' + chp.id"
-                        class=" bg-zinc-500 py-3 px-4 rounded-md text-sm">
-                        {{ chp.title ? chp.title : "No Title" }}
-                    </NuxtLink>
+                  <NuxtLink v-for="chp in manga.chapters" :key="chp" :to="'/manga/' + $route.params.info + '/' + chp.id"
+                            class="py-3 px-4 rounded-md text-sm"
+                            :style="`background-color:${manga.color ?? '#1e293b'}`">
+                    <p class="text-[0.65rem] mb-1">V {{
+                        chp.volumeNumber ?? "-"
+                      }} : Chap {{ chp.chapterNumber ?? "-" }}</p>
+                    <p>{{ chp.title ? chp.title : "No Title" }}</p>
+                  </NuxtLink>
                 </div>
             </div>
         </div>
