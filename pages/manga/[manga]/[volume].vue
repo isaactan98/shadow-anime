@@ -53,7 +53,7 @@ export default {
                     this.thisChapter = data.chapters.findIndex(x => x.id === this.$route.params.volume)
                     this.nextChapter = this.hasNextChapter(data.chapters, this.thisChapter)
                     // console.log("next chapter", this.nextChapter)
-                    this.goNextInfo = data.chapters[this.thisChapter - 1]
+                    this.goNextInfo = data.chapters[this.thisChapter + 1]
                 })
         },
         async getChapter() {
