@@ -20,7 +20,7 @@
         </div>
     </UContainer>
     <div v-if="manga" class="fixed bottom-0 w-full text-center">
-        <div class="p-1 text-sm bg-white">{{ getCurrentChapterInfo().title }}</div>
+        <div class="p-1 text-sm bg-white">Chap {{ getCurrentChapterInfo().chapterNumber }}:{{ getCurrentChapterInfo().title }}</div>
     </div>
 </template>
 
@@ -71,7 +71,7 @@ export default {
             });
         },
         hasNextChapter(chapters, chapterIndex) {
-            const nextChapter = chapters[chapterIndex - 1];
+            const nextChapter = chapters[chapterIndex + 1];
 
             if (nextChapter) {
                 return true;
