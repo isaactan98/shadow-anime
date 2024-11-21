@@ -26,10 +26,11 @@ export const getAnimeId = (anime: any) => {
 }
 
 export const getAnimeEpisodeSource = (data: any) => {
+    const config = useRuntimeConfig();
     const episode = data.sources.find((episode: any) => episode.quality == "default");
     // console.log(episode);
     if (episode) {
-        return episode.url;
+        return config['public'].corsApi + episode.url;
     }
     return '';
 }
