@@ -1,5 +1,5 @@
 <template>
-    <media-player :title="title" :poster="poster" :src="cors + src" aspect-ratio="16/9" crossorigin>
+    <media-player :title="title" :poster="poster" :src="src" aspect-ratio="16/9" crossorigin>
         <media-outlet></media-outlet>
         <media-community-skin></media-community-skin>
     </media-player>
@@ -26,8 +26,6 @@ export default {
 		};
 	},
 	mounted() {
-		const config = useRuntimeConfig();
-		this.cors = config["public"].corsApi;
 		defineCustomElements();
 	},
 };
