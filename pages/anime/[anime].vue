@@ -319,19 +319,19 @@ export default {
         const mapping = this.animeMeta.mappings?.find((mapping) => mapping.providerId === 'tmdb');
         const zoro = this.animeMeta.mappings?.find((mapping) => mapping.providerId === 'zoro');
         if (zoro == null) {
-            const title = this.animeMeta.title.native ?? this.animeMeta.title.romaji;
-            await searchZoro(title).then(async (d) => {
+          const synonyms = this.animeMeta.synonyms.length > 0 ? this.animeMeta.synonyms[0] : this.animeMeta.title.english ?? this.animeMeta.title.romaji;
+          const title = this.animeMeta.title.native ?? this.animeMeta.title.romaji;
+          await searchZoro(synonyms).then(async (d) => {
+            if (d.results.length > 0) {
+              this.anime = await this.getAnime(config, d.results[0].id);
+            } else {
+              searchZoro(title).then(async (d) => {
                 if (d.results.length > 0) {
-                    this.anime = await this.getAnime(config, d.results[0].id);
-                } else {
-                    const synonyms = this.animeMeta.synonyms.length > 0 ? this.animeMeta.synonyms[0] : this.animeMeta.title.english ?? this.animeMeta.title.romaji;
-                    searchZoro(synonyms).then(async (d) => {
-                        if (d.results.length > 0) {
-                            this.anime = await this.getAnime(config, d.results[0].id);
-                        }
-                    });
+                  this.anime = await this.getAnime(config, d.results[0].id);
                 }
-            });
+              });
+            }
+          });
         }
         // console.log('zoro', zoro);
         if (mapping) {
