@@ -5,7 +5,7 @@
                 <div class="col-span-4">
                     <div>
                         <VideoPlayer v-if="episode != null" :title="anime.title" :poster="anime.image"
-                            :src="getAnimeEpisodeSource(episode)" />
+                            :src="getAnimeEpisodeSource(episode)" :subtitle="episode.subtitles" />
                         <USkeleton v-else :ui="{ background: 'bg-zinc-800' }" style="aspect-ratio: 16/9;" :loading="true" />
                     </div>
                     <div class="text-zinc-300 text-lg gap-3">
@@ -68,72 +68,84 @@
 </template>
 
 <script lang="ts">
-import type { RuntimeConfig } from 'nuxt/schema';
+import type { RuntimeConfig } from "nuxt/schema";
 
 export default {
-    data() {
-        return {
-            anime: null as any,
-            animeMeta: null as any,
-            relations: [],
-            recommendations: [],
-            episode: null as any,
-            tmdbAnime: null as any,
-        }
-    },
-    async mounted() {
-        const config = useRuntimeConfig();
-        if (this.$route.query.id != null) this.animeMeta = await getAnimeInfo(this.$route.query.id.toString())
-        let gogoAnime = this.animeMeta?.mappings?.find((mapping: any) => mapping.providerId === 'gogoanime');
-        const mapping = this.animeMeta?.mappings?.find((mapping: any) => mapping.providerId === 'tmdb');
-        if (gogoAnime) {
-            await this.getAnime(config, gogoAnime.id.split("/category/")[1])
-            console.log(this.anime, gogoAnime.id.split("/category/")[1])
-        } else {
-            if (checkNull(this.$route.query.externalId)) {
-                await this.getAnime(config, this.$route.query.externalId!!.toString())
-            }
-        }
-        if (mapping) {
-            if (!checkNull(tmdb.getData())) {
-                this.tmdbAnime = await getTmdbSeasonEpisodes(mapping.id.split('/tv/')[1], 1);
-                tmdb.setData(this.tmdbAnime)
-                this.tmdbAnime = tmdb.getData()
-            } else this.tmdbAnime = tmdb.getData()
-            console.log(`TMDB: ${this.tmdbAnime.episodes}`)
-        }
-        await this.getEpisode(config)
-        console.log(this.animeMeta)
-        useHead({
-            title: `Episode ${this.getAnimeEpisode().number} - ${checkNull(this.animeMeta.title?.english) ? this.animeMeta.title?.english : this.animeMeta.title?.romaji}`,
-            meta: [
-                { name: 'description', content: this.anime?.description },
-            ],
-        })
-    },
-    methods: {
-        async getAnime(config: RuntimeConfig, id: string) {
-            const url = config['public'].apiUrl + 'info/' + id
-            const res = await fetch(url)
-            const data = await res.json()
-            console.log("getAnime: ", data)
-            this.anime = data
+	data() {
+		return {
+			anime: null as any,
+			animeMeta: null as any,
+			relations: [],
+			recommendations: [],
+			episode: null as any,
+			tmdbAnime: null as any,
+		};
+	},
+	async mounted() {
+		const config = useRuntimeConfig();
+		if (this.$route.query.id != null)
+			this.animeMeta = await getAnimeInfo(this.$route.query.id.toString());
+		const zoro = this.animeMeta?.mappings?.find(
+			(mapping: any) => mapping.providerId === "zoro",
+		);
+		const mapping = this.animeMeta?.mappings?.find(
+			(mapping: any) => mapping.providerId === "tmdb",
+		);
+		if (zoro) {
+			await this.getAnime(config, zoro.id.split("/watch/")[1]);
+			console.log(this.anime, zoro.id.split("/watch/")[1]);
+		} else {
+			if (checkNull(this.$route.query.externalId)) {
+				await this.getAnime(config, this.$route.query.externalId!!.toString());
+			}
+		}
+		if (mapping) {
+			if (!checkNull(tmdb.getData())) {
+				this.tmdbAnime = await getTmdbSeasonEpisodes(
+					mapping.id.split("/tv/")[1],
+					1,
+				);
+				tmdb.setData(this.tmdbAnime);
+				this.tmdbAnime = tmdb.getData();
+			} else this.tmdbAnime = tmdb.getData();
+			console.log(`TMDB: ${this.tmdbAnime.episodes}`);
+		}
+		await this.getEpisode(config);
+		console.log(this.animeMeta);
+		useHead({
+			title: `Episode ${this.getAnimeEpisode().number} - ${checkNull(this.animeMeta.title?.english) ? this.animeMeta.title?.english : this.animeMeta.title?.romaji}`,
+			meta: [{ name: "description", content: this.anime?.description }],
+		});
+	},
+	methods: {
+		async getAnime(config: RuntimeConfig, id: string) {
+			const url = `${config.public.api}anime/zoro/info/${id}`;
+			const res = await fetch(url);
+			const data = await res.json();
+			console.log("getAnime: ", data);
+			this.anime = data;
 
-            if (this.anime && this.anime.episodes.length > 0) {
-                this.anime.episodes = this.anime.episodes.sort((a: any, b: any) => b.number - a.number)
-            }
-        },
-        async getEpisode(config: RuntimeConfig) {
-            const url = config['public'].apiUrl + 'watch/' + this.$route.params.watch
-            const res = await fetch(url)
-            const data = await res.json()
-            console.log(data)
-            this.episode = data
-        },
-        getAnimeEpisode() {
-            return this.animeMeta.episodes.find((ep: any) => ep.id == this.$route.params.watch) || this.anime.episodes.find((ep: any) => ep.id == this.$route.params.watch)
-        },
-    },
-
-}
+			if (this.anime && this.anime.episodes.length > 0) {
+				this.anime.episodes = this.anime.episodes.sort(
+					(a: any, b: any) => b.number - a.number,
+				);
+			}
+		},
+		async getEpisode(config: RuntimeConfig) {
+			const url = `${config.public.api}anime/zoro/watch/${this.$route.params.watch}`;
+			const res = await fetch(url);
+			const data = await res.json();
+			console.log(data);
+			this.episode = data;
+		},
+		getAnimeEpisode() {
+			return (
+				this.animeMeta.episodes.find(
+					(ep: any) => ep.id == this.$route.params.watch,
+				) ||
+				this.anime.episodes.find((ep: any) => ep.id == this.$route.params.watch)
+			);
+		},
+	},
+};
 </script>

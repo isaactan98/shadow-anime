@@ -317,15 +317,15 @@ export default {
         this.recommendations = this.animeMeta.recommendations;
         this.relations = this.animeMeta.relations;
         const mapping = this.animeMeta.mappings?.find((mapping) => mapping.providerId === 'tmdb');
-        const gogoAnime = this.animeMeta.mappings?.find((mapping) => mapping.providerId === 'gogoanime');
-        if (gogoAnime == null) {
+        const zoro = this.animeMeta.mappings?.find((mapping) => mapping.providerId === 'zoro');
+        if (zoro == null) {
             const title = this.animeMeta.title.native ?? this.animeMeta.title.romaji;
-            await searchGogoanime(title).then(async (d) => {
+            await searchZoro(title).then(async (d) => {
                 if (d.results.length > 0) {
                     this.anime = await this.getAnime(config, d.results[0].id);
                 } else {
                     const synonyms = this.animeMeta.synonyms.length > 0 ? this.animeMeta.synonyms[0] : this.animeMeta.title.english ?? this.animeMeta.title.romaji;
-                    searchGogoanime(synonyms).then(async (d) => {
+                    searchZoro(synonyms).then(async (d) => {
                         if (d.results.length > 0) {
                             this.anime = await this.getAnime(config, d.results[0].id);
                         }
@@ -333,15 +333,15 @@ export default {
                 }
             });
         }
-        // console.log('gogoAnime', gogoAnime);
+        // console.log('zoro', zoro);
         if (mapping) {
             this.tmdbMeta = await getTmdbSeasonEpisodes(mapping.id.split('/tv/')[1], 1);
             // console.log('tmdbMeta::', this.tmdbMeta);
             tmdb.setData(this.tmdbMeta);
             // console.log(`tmdbAnime:: ${tmdb.getData()}`);
         }
-        if (checkNull(gogoAnime)) {
-            this.anime = await this.getAnime(config, gogoAnime.id.split("/category/")[1]);
+        if (checkNull(zoro)) {
+            this.anime = await this.getAnime(config, zoro.id.split("/watch/")[1]);
         }
         // console.log("animeMeta", this.animeMeta);
         useHead({
@@ -351,8 +351,7 @@ export default {
     },
     methods: {
         async getAnime(config, route) {
-            var url = "";
-            url = config["public"].apiUrl + "info/" + route;
+            const url = `${config.public.api}anime/zoro/info/${route}`;
             const res = await fetch(url)
                 .then((response) => response.json())
                 .catch((err) => {

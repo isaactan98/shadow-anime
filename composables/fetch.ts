@@ -19,7 +19,7 @@ export const fetchAnimeMeta = async (animeName: string) => {
 
 export const getAnimeInfo = async (animeId: string) => {
     const config = useRuntimeConfig();
-    const response = await fetch(`${config['public'].metaApi}info/${animeId}?provider=gogoanime`);
+    const response = await fetch(`${config.public.metaApi}info/${animeId}?provider=zoro`);
     if (!response.ok) {
         throw new Error('Network response was not ok');
     }
@@ -167,6 +167,16 @@ export const getTodayStream = async () => {
 export const searchGogoanime = async (query: string) => {
     const config = useRuntimeConfig();
     const response = await fetch(`${config['public'].apiUrl}search/${query}?page=1`);
+    if (!response.ok) {
+        throw new Error('Network response was not ok');
+    }
+    const data = await response.json();
+    return data;
+}
+
+export const searchZoro = async (query: string) => {
+    const config = useRuntimeConfig();
+    const response = await fetch(`${config.public.apiUrl}anime/zoro/search/${query}?page=1`);
     if (!response.ok) {
         throw new Error('Network response was not ok');
     }

@@ -27,10 +27,20 @@ export const getAnimeId = (anime: any) => {
 
 export const getAnimeEpisodeSource = (data: any) => {
     const config = useRuntimeConfig();
-    const episode = data.sources.find((episode: any) => episode.quality == "default");
-    // console.log(episode);
+    const episode = data.sources.find((episode: any) => episode.quality === "default") ?? data.sources[0];
+    // console.log("episode", episode);
     if (episode) {
-        return config['public'].corsApi + episode.url;
+        return `https://anime-proxy.vercel.app/hianime-hls-proxy?url=${episode.url}`;
+    }
+    return '';
+}
+
+export const getAnimeCaptionSource = (data: any) => {
+    const config = useRuntimeConfig();
+    const episode = data.subtitles[0];
+    console.log("episode", episode)
+    if (episode) {
+        return `${episode.url}`;
     }
     return '';
 }
