@@ -237,14 +237,14 @@
                 </template>
             </UTabs>
             <div class="">
-                <div class="mt-5 w-full" v-if="(tmdbMeta != null || animeMeta != null) && anime != null">
+                <div class="mt-5 w-full" v-if="(tmdbMeta != null || animeMeta != null)">
                     <h3 class="text-white text-xl">Episodes</h3>
                     <div class="mt-3 max-h-[70vh] overflow-y-auto scroll-p-0">
-                        <NuxtLink v-for="(e, i) in anime.episodes" :key="i"
-                            :to="'/anime/watch/' + e.id + '?id=' + $route.params.anime + '&externalId=' + anime.id"
+                        <NuxtLink v-for="(e, i) in animeMeta.episodes" :key="i"
+                            :to="'/anime/watch/' + e.id + '?id=' + $route.params.anime"
                             class="flex gap-3 w-full mb-3 items-center bg-zinc-900 rounded-lg">
                             <AnimeEpImg
-                                :src="getAnimeEpisodeNumber(tmdbMeta?.episodes ?? animeMeta.episodes, e.number).image ?? anime.image"
+                                :src="getAnimeEpisodeNumber(tmdbMeta?.episodes ?? animeMeta.episodes, e.number).image"
                                 :ep="e.number" />
                             <div class="w-3/5 md:w-3/4">
                                 <h5 class="text-white text-md">
@@ -281,89 +281,100 @@
 </template>
 
 <script>
-
 export default {
-    data() {
-        return {
-            anime: null,
-            loading: false,
-            search: "",
-            nextPage: false,
-            currentPage: 1,
-            nextLoading: false,
-            animeMeta: null,
-            recommendations: null,
-            relations: null,
-            isOpen: false,
-            openTrailer: false,
-            tabs: [
-                { key: "info", label: "Info" },
-                { key: "characters", label: "Characters" },
-                { key: "relations", label: "Relations" },
-                { key: "artwork", label: "Artwork" },
-            ],
-            tmdbMeta: null,
-        };
-    },
-    async mounted() {
-        // console.clear();
-        const config = useRuntimeConfig();
-        await getAnimeInfo(this.$route.params.anime).then((d) => {
-            this.animeMeta = d;
-        }).catch(() => {
-            alert("Anime not found");
-            this.$router.push("/");
-        });
-        this.recommendations = this.animeMeta.recommendations;
-        this.relations = this.animeMeta.relations;
-        const mapping = this.animeMeta.mappings?.find((mapping) => mapping.providerId === 'tmdb');
-        const zoro = this.animeMeta.mappings?.find((mapping) => mapping.providerId === 'zoro');
-        if (zoro == null) {
-          const synonyms = this.animeMeta.synonyms.length > 0 ? this.animeMeta.synonyms[0] : this.animeMeta.title.english ?? this.animeMeta.title.romaji;
-          const title = this.animeMeta.title.native ?? this.animeMeta.title.romaji;
-          await searchZoro(synonyms).then(async (d) => {
-            if (d.results.length > 0) {
-              this.anime = await this.getAnime(config, d.results[0].id);
-            } else {
-              searchZoro(title).then(async (d) => {
-                if (d.results.length > 0) {
-                  this.anime = await this.getAnime(config, d.results[0].id);
-                }
-              });
-            }
-          });
-        }
-        // console.log('zoro', zoro);
-        if (mapping) {
-            this.tmdbMeta = await getTmdbSeasonEpisodes(mapping.id.split('/tv/')[1], 1);
-            // console.log('tmdbMeta::', this.tmdbMeta);
-            tmdb.setData(this.tmdbMeta);
-            // console.log(`tmdbAnime:: ${tmdb.getData()}`);
-        }
-        if (checkNull(zoro)) {
-            this.anime = await this.getAnime(config, zoro.id.split("/watch/")[1]);
-        }
-        // console.log("animeMeta", this.animeMeta);
-        useHead({
-            title: this.animeMeta.title.english ?? this.animeMeta.title.romaji,
-            meta: [{ name: "description", content: "Anime" }],
-        });
-    },
-    methods: {
-        async getAnime(config, route) {
-            const url = `${config.public.api}anime/zoro/info/${route}`;
-            const res = await fetch(url)
-                .then((response) => response.json())
-                .catch((err) => {
-                    console.log(err);
-                });
-            return res;
-        },
-        openModal(url) {
-            // console.log(url)
-            this.showImg = url;
-            this.isOpen = true;
-        },
-    },
+	data() {
+		return {
+			anime: null,
+			loading: false,
+			search: "",
+			nextPage: false,
+			currentPage: 1,
+			nextLoading: false,
+			animeMeta: null,
+			recommendations: null,
+			relations: null,
+			isOpen: false,
+			openTrailer: false,
+			tabs: [
+				{ key: "info", label: "Info" },
+				{ key: "characters", label: "Characters" },
+				{ key: "relations", label: "Relations" },
+				{ key: "artwork", label: "Artwork" },
+			],
+			tmdbMeta: null,
+		};
+	},
+	async mounted() {
+		// console.clear();
+		const config = useRuntimeConfig();
+		await getAnimeInfo(this.$route.params.anime)
+			.then((d) => {
+				this.animeMeta = d;
+			})
+			.catch(() => {
+				alert("Anime not found");
+				this.$router.push("/");
+			});
+		this.recommendations = this.animeMeta.recommendations;
+		this.relations = this.animeMeta.relations;
+		const mapping = this.animeMeta.mappings?.find(
+			(mapping) => mapping.providerId === "tmdb",
+		);
+		const zoro = this.animeMeta.mappings?.find(
+			(mapping) => mapping.providerId === "zoro",
+		);
+		// if (zoro == null) {
+		// 	const synonyms =
+		// 		this.animeMeta.synonyms.length > 0
+		// 			? this.animeMeta.synonyms[0]
+		// 			: (this.animeMeta.title.english ?? this.animeMeta.title.romaji);
+		// 	const title = this.animeMeta.title.native ?? this.animeMeta.title.romaji;
+		// 	await searchZoro(synonyms).then(async (d) => {
+		// 		if (d.results.length > 0) {
+		// 			this.anime = await this.getAnime(config, d.results[0].id);
+		// 		} else {
+		// 			searchZoro(title).then(async (d) => {
+		// 				if (d.results.length > 0) {
+		// 					this.anime = await this.getAnime(config, d.results[0].id);
+		// 				}
+		// 			});
+		// 		}
+		// 	});
+		// }
+		// console.log('zoro', zoro);
+		if (mapping) {
+			this.tmdbMeta = await getTmdbSeasonEpisodes(
+				mapping.id.split("/tv/")[1],
+				1,
+			);
+			// console.log('tmdbMeta::', this.tmdbMeta);
+			tmdb.setData(this.tmdbMeta);
+			// console.log(`tmdbAnime:: ${tmdb.getData()}`);
+		}
+		// if (checkNull(zoro)) {
+		// 	this.anime = await this.getAnime(config, zoro.id.split("/watch/")[1]);
+		// }
+		// console.log("animeMeta", this.animeMeta);
+		useHead({
+			title: this.animeMeta.title.english ?? this.animeMeta.title.romaji,
+			meta: [{ name: "description", content: "Anime" }],
+		});
+	},
+	methods: {
+		async getAnime(config, route) {
+			const url = `${config.public.api}anime/zoro/info/${route}`;
+			const res = await fetch(url)
+				.then((response) => response.json())
+				.catch((err) => {
+					console.log(err);
+				});
+			return res;
+		},
+		openModal(url) {
+			// console.log(url)
+			this.showImg = url;
+			this.isOpen = true;
+		},
+	},
 };
 </script>

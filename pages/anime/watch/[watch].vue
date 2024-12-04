@@ -1,10 +1,10 @@
 <template>
     <div class="min-h-screen">
-        <div v-if="checkNull(animeMeta) && checkNull(anime)">
+        <div v-if="checkNull(animeMeta)">
             <div class="grid grid-cols-1 md:grid-cols-5 mx-3 md:mx-8 md:gap-3">
                 <div class="col-span-4">
                     <div>
-                        <VideoPlayer v-if="episode != null" :title="anime.title" :poster="anime.image"
+                        <VideoPlayer v-if="episode != null" :title="checkNull(animeMeta.title?.english) ? animeMeta.title?.english : animeMeta.title?.romaji" :poster="animeMeta.image"
                             :src="getAnimeEpisodeSource(episode)" :subtitle="episode.subtitles" />
                         <USkeleton v-else :ui="{ background: 'bg-zinc-800' }" style="aspect-ratio: 16/9;" :loading="true" />
                     </div>
@@ -42,12 +42,12 @@
                     <div class="w-full">
                         <h3 class="text-white text-xl font-bold">Episodes</h3>
                         <div class="mt-3 overflow-y-auto h-screen">
-                            <NuxtLink v-for="ep in anime.episodes"
+                            <NuxtLink v-for="ep in animeMeta.episodes"
                                 :to="`/anime/watch/${ep.id}?id=${$route.query.id}&externalId=${$route.query.externalId}`"
                                 class="flex gap-3 w-full mb-3 items-center border rounded-lg"
                                 :class="{ 'border-2 border-purple-500': ep.id == $route.params.watch }">
                                 <AnimeEpImg v-if="animeMeta"
-                                    :src="getAnimeEpisodeNumber(tmdbAnime?.episodes ?? animeMeta.episodes, ep.number).image ?? anime.image"
+                                    :src="getAnimeEpisodeNumber(tmdbAnime?.episodes ?? animeMeta.episodes, ep.number).image"
                                     :ep="ep.number" />
                                 <div class="w-3/5 md:w-3/4">
                                     <h5 v-if="animeMeta" class="text-white text-sm">
@@ -91,14 +91,14 @@ export default {
 		const mapping = this.animeMeta?.mappings?.find(
 			(mapping: any) => mapping.providerId === "tmdb",
 		);
-		if (zoro) {
-			await this.getAnime(config, zoro.id.split("/watch/")[1]);
-			console.log(this.anime, zoro.id.split("/watch/")[1]);
-		} else {
-			if (checkNull(this.$route.query.externalId)) {
-				await this.getAnime(config, this.$route.query.externalId!!.toString());
-			}
-		}
+		// if (zoro) {
+		// 	await this.getAnime(config, zoro.id.split("/watch/")[1]);
+		// 	console.log(this.anime, zoro.id.split("/watch/")[1]);
+		// } else {
+		// 	if (checkNull(this.$route.query.externalId)) {
+		// 		await this.getAnime(config, this.$route.query.externalId!!.toString());
+		// 	}
+		// }
 		if (mapping) {
 			if (!checkNull(tmdb.getData())) {
 				this.tmdbAnime = await getTmdbSeasonEpisodes(
