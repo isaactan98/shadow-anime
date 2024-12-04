@@ -176,7 +176,7 @@ export const searchGogoanime = async (query: string) => {
 
 export const searchZoro = async (query: string) => {
     const config = useRuntimeConfig();
-    const response = await fetch(`${config.public.apiUrl}anime/zoro/search/${query}?page=1`);
+    const response = await fetch(`${config.public.api}anime/zoro/search/${query}?page=1`);
     if (!response.ok) {
         throw new Error('Network response was not ok');
     }
