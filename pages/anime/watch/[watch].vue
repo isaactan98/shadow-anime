@@ -132,7 +132,8 @@ export default {
 			}
 		},
 		async getEpisode(config: RuntimeConfig) {
-			const url = `${config.public.api}anime/zoro/watch/${this.$route.params.watch}`;
+			const id = this.$route.params.watch.toString().replace("sub", "both")
+			const url = `${config.public.api}anime/zoro/watch/${id}?server=vidstreaming`;
 			const res = await fetch(url);
 			const data = await res.json();
 			console.log(data);
