@@ -132,11 +132,14 @@ export default {
 			}
 		},
 		async getEpisode(config: RuntimeConfig) {
-			const id = this.$route.params.watch.toString().replace("sub", "both")
-			const url = `${config.public.api}anime/zoro/watch/${id}?server=vidstreaming`;
+			const id = this.$route.params.watch.toString()
+			const replace = id.replace("$episode$", "?ep=").replace("$sub", "");
+			// const url = `${config.public.api}anime/zoro/watch/${id}?server=vidstreaming`;
+			// "the-healer-who-was-banished-from-his-party-is-in-fact-the-strongest-19345$episode$130774$sub" 
+			const url = `https://aniwatch-api2.vercel.app/api/v2/hianime/episode/sources?animeEpisodeId=${replace}`
 			const res = await fetch(url);
 			const data = await res.json();
-			console.log(data);
+			// console.log(data);
 			this.episode = data;
 		},
 		getAnimeEpisode() {
