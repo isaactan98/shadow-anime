@@ -140,7 +140,7 @@ export default {
 			const res = await fetch(url);
 			const data = await res.json();
 			// console.log(data);
-			this.episode = data;
+			this.episode = data.data;
 		},
 		getAnimeEpisode() {
 			return (
