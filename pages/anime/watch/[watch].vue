@@ -5,7 +5,7 @@
                 <div class="col-span-4">
                     <div>
                         <VideoPlayer v-if="episode != null" :title="checkNull(animeMeta.title?.english) ? animeMeta.title?.english : animeMeta.title?.romaji" :poster="animeMeta.image"
-                            :src="getAnimeEpisodeSource(episode)" :subtitle="episode.subtitles" />
+                            :src="getAnimeEpisodeSource(episode)" :subtitle="episode.tracks" />
                         <USkeleton v-else :ui="{ background: 'bg-zinc-800' }" style="aspect-ratio: 16/9;" :loading="true" />
                     </div>
                     <div class="text-zinc-300 text-lg gap-3">

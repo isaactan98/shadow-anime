@@ -1,7 +1,7 @@
 <template>
     <media-player :title="title" :poster="poster" :src="src" aspect-ratio="16/9" crossorigin>
         <media-outlet>
-			<track v-for="s in subtitle" :src="s.url" 
+			<track v-for="s in subtitle" :src="s.file" 
 				kind="subtitles"
 				:label="s.lang"
 				data-type="vtt" />
