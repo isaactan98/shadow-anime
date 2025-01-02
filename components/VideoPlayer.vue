@@ -3,7 +3,7 @@
         <media-outlet>
 			<track v-for="s in subtitle" :src="s.file" 
 				kind="subtitles"
-				:label="s.lang"
+				:label="s.label"
 				data-type="vtt" />
 		</media-outlet>
         <media-community-skin></media-community-skin>
